@@ -3999,3 +3999,14 @@ Processing by PagesController#home as HTML
 Completed 200 OK in 58ms (Views: 9.0ms | ActiveRecord: 1.3ms (1 query, 0 cached) | GC: 11.1ms)
 
 
+Started GET "/" for 127.0.0.1 at 2025-12-06 22:55:28 +0300
+Processing by PagesController#home as HTML
+  [1m[36mUser Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = 2 LIMIT 1 /*action='home',application='BarahloNet',controller='pages'*/[0m
+  ↳ app/controllers/application_controller.rb:9:in `set_current_user'
+  Rendering layout layouts/application.html.erb
+  Rendering pages/home.html.erb within layouts/application
+  Rendered pages/home.html.erb within layouts/application (Duration: 1.0ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 2.6ms | GC: 0.0ms)
+Completed 200 OK in 29ms (Views: 3.7ms | ActiveRecord: 0.7ms (1 query, 0 cached) | GC: 0.0ms)
+
+
