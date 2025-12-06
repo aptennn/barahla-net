@@ -1,0 +1,58 @@
+<% if flash[:notice] %>
+  <div class="fixed top-4 right-4 z-50">
+    <div class="rounded-lg bg-green-50 p-4 shadow-lg animate-slide-in">
+      <div class="flex items-center">
+        <div class="flex-shrink-0">
+          <svg class="h-5 w-5 text-green-400" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+          </svg>
+        </div>
+        <div class="ml-3">
+          <p class="text-sm font-medium text-green-800"><%= flash[:notice] %></p>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>
+
+<div class="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50">
+  <!-- Навигация -->
+  <nav class="bg-white shadow-lg">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between h-16">
+        <div class="flex items-center">
+          <h1 class="text-xl font-bold text-gray-900">Мое Приложение</h1>
+        </div>
+
+        <div class="flex items-center space-x-4">
+          <% if logged_in? %>
+            <span class="text-gray-700">Привет, <%= current_user.username %>!</span>
+            <%= link_to "Дашборд", dashboard_path, class: "text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium" %>
+            <%= button_to "Выйти", logout_path, method: :delete,
+                          class: "bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 text-sm font-medium" %>
+          <% else %>
+            <%= link_to "Войти", login_path, class: "text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium" %>
+            <%= link_to "Регистрация", register_path,
+                        class: "bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 text-sm font-medium" %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Контент -->
+  <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+    <div class="text-center">
+      <h2 class="text-3xl font-extrabold text-gray-900 sm:text-4xl">
+        Добро пожаловать!
+      </h2>
+      <p class="mt-4 text-lg text-gray-600">
+        <% if logged_in? %>
+          Вы успешно авторизованы. Перейдите в <a href="<%= dashboard_path %>" class="text-blue-600 hover:text-blue-800">личный кабинет</a>.
+        <% else %>
+          Пожалуйста, <a href="<%= login_path %>" class="text-blue-600 hover:text-blue-800">войдите</a> или <a href="<%= register_path %>" class="text-blue-600 hover:text-blue-800">зарегистрируйтесь</a>.
+        <% end %>
+      </p>
+    </div>
+  </div>
+</div>

@@ -1,4 +1,10 @@
 Rails.application.routes.draw do
+  get "pages/dashboard"
+  get "users/new"
+  get "users/create"
+  get "sessions/new"
+  get "sessions/create"
+  get "sessions/destroy"
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
@@ -11,4 +17,20 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "posts#index"
+  root to: 'pages#home'
+
+  # Аутентификация
+  get 'login', to: 'sessions#new'
+  post 'login', to: 'sessions#create'
+  delete 'logout', to: 'sessions#destroy'
+
+  # Регистрация
+  get 'register', to: 'users#new'
+  post 'register', to: 'users#create'
+
+  # Профиль (только для авторизованных)
+  get 'profile', to: 'users#show'
+
+  # Страницы
+  get 'dashboard', to: 'pages#dashboard'
 end

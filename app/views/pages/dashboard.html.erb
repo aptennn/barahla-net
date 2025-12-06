@@ -1,0 +1,51 @@
+<div class="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50">
+  <nav class="bg-white shadow-lg">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between h-16">
+        <div class="flex items-center">
+          <h1 class="text-xl font-bold text-gray-900">Личный кабинет</h1>
+        </div>
+
+        <div class="flex items-center space-x-4">
+          <span class="text-gray-700">Привет, <%= current_user.username %>!</span>
+          <%= link_to "Главная", root_path, class: "text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium" %>
+          <%= button_to "Выйти", logout_path, method: :delete,
+                        class: "bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 text-sm font-medium" %>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+    <div class="bg-white shadow-lg rounded-2xl p-8">
+      <h2 class="text-2xl font-bold text-gray-900 mb-6">Ваша информация</h2>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="bg-gray-50 p-6 rounded-xl">
+          <h3 class="text-lg font-semibold text-gray-800 mb-2">Основная информация</h3>
+          <div class="space-y-2">
+            <p><span class="font-medium">Имя пользователя:</span> <%= current_user.username %></p>
+            <p><span class="font-medium">Email:</span> <%= current_user.email %></p>
+            <p><span class="font-medium">Дата регистрации:</span> <%= current_user.created_at.strftime("%d.%m.%Y") %></p>
+          </div>
+        </div>
+
+        <div class="bg-blue-50 p-6 rounded-xl">
+          <h3 class="text-lg font-semibold text-blue-800 mb-2">Статус аккаунта</h3>
+          <p class="text-blue-700">Аккаунт активен ✓</p>
+          <p class="mt-4 text-gray-600 text-sm">Все функции доступны</p>
+        </div>
+      </div>
+
+      <div class="mt-8 pt-8 border-t border-gray-200">
+        <h3 class="text-lg font-semibold text-gray-800 mb-4">Быстрые действия</h3>
+        <div class="flex space-x-4">
+          <%= link_to "Изменить профиль", "#",
+                      class: "bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 font-medium" %>
+          <%= link_to "Настройки", "#",
+                      class: "bg-gray-200 text-gray-800 px-6 py-3 rounded-lg hover:bg-gray-300 font-medium" %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
