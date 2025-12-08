@@ -4010,3 +4010,85 @@ Processing by PagesController#home as HTML
 Completed 200 OK in 29ms (Views: 3.7ms | ActiveRecord: 0.7ms (1 query, 0 cached) | GC: 0.0ms)
 
 
+  [1m[36mActiveRecord::InternalMetadata Load (0.1ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = 'environment' ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1 /*application='BarahloNet'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='BarahloNet'*/[0m
+Migrating to CreateCities (20251208195358)
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='BarahloNet'*/[0m
+  [1m[35m (2.6ms)[0m  [1m[35mCREATE TABLE "cities" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "city_id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar NOT NULL, "region" varchar NOT NULL, "country" varchar NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL) /*application='BarahloNet'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION /*application='BarahloNet'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='BarahloNet'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='BarahloNet'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='BarahloNet'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='BarahloNet'*/[0m
+Reverting CreateUsers (20251206185605)
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='BarahloNet'*/[0m
+  [1m[35m (1.2ms)[0m  [1m[35mDROP TABLE "users" /*application='BarahloNet'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Destroy (0.1ms)[0m  [1m[31mDELETE FROM "schema_migrations" WHERE "schema_migrations"."version" = '20251206185605' /*application='BarahloNet'*/[0m
+  [1m[36mTRANSACTION (9.2ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='BarahloNet'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='BarahloNet'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (1.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='BarahloNet'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='BarahloNet'*/[0m
+  [1m[35m (2.0ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" varchar NOT NULL PRIMARY KEY) /*application='BarahloNet'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='BarahloNet'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[32mINSERT INTO "schema_migrations" (version) VALUES (0) /*application='BarahloNet'*/[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" varchar NOT NULL PRIMARY KEY, "value" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL) /*application='BarahloNet'*/[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.1ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = 'environment' ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1 /*application='BarahloNet'*/[0m
+  [1m[36mActiveRecord::InternalMetadata Create (0.1ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ('environment', 'development', '2025-12-08 20:01:29.973415', '2025-12-08 20:01:29.973416') RETURNING "key" /*application='BarahloNet'*/[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.0ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = 'environment' ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1 /*application='BarahloNet'*/[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.3ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = 'schema_sha1' ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1 /*application='BarahloNet'*/[0m
+  [1m[36mActiveRecord::InternalMetadata Create (0.1ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ('schema_sha1', '304fe853693c8703e374a9e1a59433c7d63e9ef6', '2025-12-08 20:01:29.982539', '2025-12-08 20:01:29.982540') RETURNING "key" /*application='BarahloNet'*/[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.3ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = 'environment' ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1 /*application='BarahloNet'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='BarahloNet'*/[0m
+Migrating to CreateUsers (20251206185605)
+  [1m[36mTRANSACTION (2.4ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='BarahloNet'*/[0m
+  [1m[35m (7.9ms)[0m  [1m[35mCREATE TABLE "users" ("user_id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "city_id" integer NOT NULL, "email" varchar NOT NULL, "password_digest" varchar NOT NULL, "username" varchar NOT NULL, "phone" varchar NOT NULL, "rating" float DEFAULT 0.0, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL) /*application='BarahloNet'*/[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_users_on_email" ON "users" ("email") /*application='BarahloNet'*/[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_users_on_username" ON "users" ("username") /*application='BarahloNet'*/[0m
+  [1m[35m (0.5ms)[0m  [1m[35mCREATE INDEX "index_users_on_city_id" ON "users" ("city_id") /*application='BarahloNet'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.7ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ('20251206185605') RETURNING "version" /*application='BarahloNet'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='BarahloNet'*/[0m
+Migrating to CreateCities (20251208195358)
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='BarahloNet'*/[0m
+  [1m[35m (1.3ms)[0m  [1m[35mCREATE TABLE "cities" ("city_id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar NOT NULL, "region" varchar NOT NULL, "country" varchar NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL) /*application='BarahloNet'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.4ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ('20251208195358') RETURNING "version" /*application='BarahloNet'*/[0m
+  [1m[36mTRANSACTION (0.9ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='BarahloNet'*/[0m
+Migrating to CreateAdvertisements (20251208195359)
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='BarahloNet'*/[0m
+  [1m[35m (1.5ms)[0m  [1m[35mCREATE TABLE "advertisements" ("ad_id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer NOT NULL, "city_id" integer NOT NULL, "category_id" integer NOT NULL, "status" varchar DEFAULT 'active' NOT NULL, "price" float NOT NULL, "title" varchar NOT NULL, "description" text NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_cab0b64c35"
+FOREIGN KEY ("user_id")
+  REFERENCES "users" ("user_id")
+, CONSTRAINT "fk_rails_c90de841ba"
+FOREIGN KEY ("city_id")
+  REFERENCES "cities" ("city_id")
+) /*application='BarahloNet'*/[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "index_advertisements_on_user_id" ON "advertisements" ("user_id") /*application='BarahloNet'*/[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "index_advertisements_on_city_id" ON "advertisements" ("city_id") /*application='BarahloNet'*/[0m
+  [1m[35m (0.3ms)[0m  [1m[35mCREATE INDEX "index_advertisements_on_category_id" ON "advertisements" ("category_id") /*application='BarahloNet'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.1ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ('20251208195359') RETURNING "version" /*application='BarahloNet'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='BarahloNet'*/[0m
+Migrating to CreateTransports (20251208195400)
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='BarahloNet'*/[0m
+  [1m[35m (1.0ms)[0m  [1m[35mCREATE TABLE "transports" ("category_id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "brand" varchar NOT NULL, "model" varchar NOT NULL, "year" varchar NOT NULL, "mileage" integer NOT NULL, "fuel_type" varchar NOT NULL, "transmission" varchar NOT NULL, "engine_capacity" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL) /*application='BarahloNet'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.1ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ('20251208195400') RETURNING "version" /*application='BarahloNet'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='BarahloNet'*/[0m
+Migrating to CreateRealEstates (20251208195401)
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='BarahloNet'*/[0m
+  [1m[35m (0.6ms)[0m  [1m[35mCREATE TABLE "real_estates" ("category_id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "type" varchar NOT NULL, "total_area" float NOT NULL, "living_area" float NOT NULL, "floor" integer NOT NULL, "total_floors" integer NOT NULL, "rooms_count" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL) /*application='BarahloNet'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.1ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ('20251208195401') RETURNING "version" /*application='BarahloNet'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='BarahloNet'*/[0m
+Migrating to CreateJobs (20251208195402)
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='BarahloNet'*/[0m
+  [1m[35m (0.6ms)[0m  [1m[35mCREATE TABLE "jobs" ("category_id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL) /*application='BarahloNet'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.0ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ('20251208195402') RETURNING "version" /*application='BarahloNet'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='BarahloNet'*/[0m
+Migrating to CreateServices (20251208195403)
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='BarahloNet'*/[0m
+  [1m[35m (0.8ms)[0m  [1m[35mCREATE TABLE "services" ("category_id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL) /*application='BarahloNet'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.0ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ('20251208195403') RETURNING "version" /*application='BarahloNet'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='BarahloNet'*/[0m
+Migrating to CreateThings (20251208195404)
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='BarahloNet'*/[0m
+  [1m[35m (0.7ms)[0m  [1m[35mCREATE TABLE "things" ("category_id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar NOT NULL, "type" varchar NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL) /*application='BarahloNet'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.1ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ('20251208195404') RETURNING "version" /*application='BarahloNet'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='BarahloNet'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='BarahloNet'*/[0m
