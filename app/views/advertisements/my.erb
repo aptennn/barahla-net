@@ -1,0 +1,25 @@
+<div class="min-h-screen bg-gradient-to-br from-blue-50 to-gray-100 py-12 px-4 sm:px-6 lg:px-8">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+
+    <div class="text-center mb-12">
+      <h1 class="text-3xl font-bold text-gray-900">Все объявления</h1>
+    </div>
+
+    <!-- Заглушка -->
+    <div class="mb-50">
+
+    </div>
+
+    <div class="text-center mt-50">
+      <%= link_to new_advertisement_path,
+                  class: "inline-flex items-center px-5 py-2.5 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition text-sm" do %>
+        <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+        </svg>
+        Добавить объявление
+      <% end %>
+    </div>
+
+  </div>
+</div>

@@ -33,6 +33,7 @@ class Advertisement < ApplicationRecord
   validates :status, inclusion: { in: %w[active inactive sold reserved] }
   ## Возможность получать только активные объявления
   scope :active, -> { where(status: 'active') }
+  scope :recent, -> { order(created_at: :desc) }
 
 
   ## Определяем тип объявления

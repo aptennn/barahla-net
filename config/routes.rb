@@ -33,4 +33,13 @@ Rails.application.routes.draw do
 
   # Страницы
   get 'dashboard', to: 'pages#dashboard'
+
+  # Работа с объявлениями
+  resources :advertisements do
+    collection do
+      get 'my'
+    end
+  end
+
+
 end
