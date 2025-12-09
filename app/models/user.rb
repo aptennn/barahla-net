@@ -1,9 +1,9 @@
 class User < ApplicationRecord
-  self.primary_key = 'user_id'
+  self.primary_key = 'id'
   has_secure_password
-  belongs_to :city, foreign_key: 'city_id'
+  belongs_to :city, foreign_key: 'city_id', primary_key: 'city_id'
 
-  has_many :advertisements, foreign_key: 'user_id', dependent: :destroy
+  has_many :advertisements, foreign_key: 'id', dependent: :destroy
 
   validates :email,
             presence: true,

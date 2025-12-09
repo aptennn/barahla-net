@@ -7,3 +7,18 @@
 #   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
+cities = [
+  [1, 'Ростов-на-Дону', 'Ростовская область', 'Россия'],
+  [2, 'Краснодар', 'Краснодарский край', 'Россия'],
+  [3, 'Сочи', 'Краснодарский край', 'Россия']
+]
+
+cities.each do |city_id, name, region, country|
+  City.find_or_create_by!(city_id: city_id) do |city|
+    city.name = name
+    city.region = region
+    city.country = country
+  end
+end
+
+puts "Города добавлены: #{City.pluck(:name).join(', ')}"

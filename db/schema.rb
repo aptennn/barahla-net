@@ -76,13 +76,13 @@ ActiveRecord::Schema[8.0].define(version: 2025_12_08_195404) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "users", primary_key: "user_id", force: :cascade do |t|
-    t.integer "city_id", null: false
-    t.string "email", null: false
-    t.string "password_digest", null: false
-    t.string "username", null: false
-    t.string "phone", null: false
-    t.float "rating", default: 0.0
+  create_table "users", force: :cascade do |t|
+    t.integer "city_id"
+    t.string "email"
+    t.string "password_digest"
+    t.string "username"
+    t.string "phone"
+    t.float "rating"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["city_id"], name: "index_users_on_city_id"
@@ -91,5 +91,5 @@ ActiveRecord::Schema[8.0].define(version: 2025_12_08_195404) do
   end
 
   add_foreign_key "advertisements", "cities", primary_key: "city_id"
-  add_foreign_key "advertisements", "users", primary_key: "user_id"
+  add_foreign_key "advertisements", "users"
 end
