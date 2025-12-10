@@ -3,6 +3,8 @@ class AdvertisementsController < ApplicationController
   before_action :set_advertisement, only: [:show, :edit, :update, :destroy]
   def new
     @advertisement = current_user.advertisements.new
+    @categories = Advertisement::CATEGORIES
+    @cities = City.all
   end
 
   # Главная страница
@@ -14,8 +16,10 @@ class AdvertisementsController < ApplicationController
   def create
     @advertisement = current_user.advertisements.new(ad_params)
     if @advertisement.save
-      redirect_to ad_path, notice: 'Объявление успешно создано!'
+      redirect_to advertisement_path(@advertisement), notice: 'Объявление успешно создано!'
     else
+      @categories = Advertisement::CATEGORIES
+      @cities = City.all
       render :new, status: :unprocessable_entity
     end
   end
@@ -24,6 +28,8 @@ class AdvertisementsController < ApplicationController
   end
 
   def edit
+    @categories = Advertisement::CATEGORIES
+    @cities = City.all
   end
 
   def update
@@ -45,7 +51,7 @@ class AdvertisementsController < ApplicationController
 
   private
   def ad_params
-    params.require(:advertisement).permit(:title, :description, :price, :image_url, :active)
+    params.require(:advertisement).permit(:title, :description, :price, :status, :category_id)
   end
 
   def set_advertisement

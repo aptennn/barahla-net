@@ -4,6 +4,14 @@ class Advertisement < ApplicationRecord
   belongs_to :user, foreign_key: 'user_id'
   belongs_to :city, foreign_key: 'city_id'
 
+  CATEGORIES = {
+    1 => 'Транспорт',
+    2 => 'Недвижимость',
+    3 => 'Услуги',
+    4 => 'Вещи',
+    5 => 'Работа'
+  }.freeze
+
   def transport_detail
     Transport.find_by(category_id: category_id)
   end
@@ -31,6 +39,7 @@ class Advertisement < ApplicationRecord
   ## Обработка цены и статуса
   validates :price, numericality: { greater_than: 0 }
   validates :status, inclusion: { in: %w[active inactive sold reserved] }
+  validates :category_id, inclusion: { in: 1..5 }
   ## Возможность получать только активные объявления
   scope :active, -> { where(status: 'active') }
   scope :recent, -> { order(created_at: :desc) }

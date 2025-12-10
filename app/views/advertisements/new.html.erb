@@ -1,0 +1,101 @@
+<div class="min-h-screen bg-gradient-to-br from-blue-50 to-gray-100 py-12 px-4 sm:px-6 lg:px-8">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+    <div class="text-center mb-12">
+      <h1 class="text-3xl font-bold text-gray-900">Создание объявления</h1>
+      <p class="mt-2 text-gray-600">Заполните форму ниже, чтобы создать новое объявление</p>
+    </div>
+
+    <!-- Форма создания объявления -->
+    <div class="max-w-2xl mx-auto bg-white rounded-lg shadow-md p-6 md:p-8">
+      <%= form_with(model: @advertisement, url: advertisements_path, local: true, class: "space-y-6") do |form| %>
+        <% if @advertisement.errors.any? %>
+          <div class="bg-red-50 border-l-4 border-red-400 p-4 mb-6">
+            <div class="flex">
+              <div class="flex-shrink-0">
+                <svg class="h-5 w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
+                </svg>
+              </div>
+              <div class="ml-3">
+                <h3 class="text-sm font-medium text-red-800">
+                  <%= pluralize(@advertisement.errors.count, "ошибка") %> не дают сохранить это объявление:
+                </h3>
+                <div class="mt-2 text-sm text-red-700">
+                  <ul class="list-disc pl-5 space-y-1">
+                    <% @advertisement.errors.full_messages.each do |message| %>
+                      <li><%= message %></li>
+                    <% end %>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        <% end %>
+
+        <!-- Заголовок -->
+        <div>
+          <%= form.label :title, "Заголовок объявления", class: "block text-sm font-medium text-gray-700" %>
+          <%= form.text_field :title,
+                              class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm",
+                              placeholder: "Например: Продам людей, бананы" %>
+        </div>
+
+        <!-- Категория -->
+        <div>
+          <%= form.label :category_id, "Категория", class: "block text-sm font-medium text-gray-700" %>
+          <%= form.select :category_id,
+                          options_for_select(@categories.map { |id, name| [name, id] }, @advertisement.category_id),
+                          { include_blank: "Выберите категорию..." },
+                          class: "mt-1 block w-full pl-3 pr-10 py-2 text-base border border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md" %>
+        </div>
+
+        <!-- Описание -->
+        <div>
+          <%= form.label :description, "Описание", class: "block text-sm font-medium text-gray-700" %>
+          <%= form.text_area :description,
+                             rows: 4,
+                             class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm",
+                             placeholder: "Описание товара или услуги..." %>
+        </div>
+
+        <!-- Цена -->
+        <div>
+          <%= form.label :price, "Цена", class: "block text-sm font-medium text-gray-700" %>
+          <div class="mt-1 relative rounded-md shadow-sm">
+            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <span class="text-gray-500 sm:text-sm">₽</span>
+            </div>
+            <%= form.number_field :price,
+                                  class: "block w-full pl-7 pr-12 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm",
+                                  placeholder: "0.00",
+                                  min: "0",
+                                  step: "0.01" %>
+          </div>
+        </div>
+
+        <!-- Город -->
+        <div>
+          <%= form.label :city_id, "Город", class: "block text-sm font-medium text-gray-700" %>
+          <%= form.select :city_id,
+                          options_for_select(@cities.map { |city| [city.name, city.id] }, @advertisement.city_id),
+                          { include_blank: "Выберите город..." },
+                          class: "mt-1 block w-full pl-3 pr-10 py-2 text-base border border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md",
+                          required: true %>
+        </div>
+
+
+
+        <!-- Кнопки -->
+        <div class="pt-6 border-t border-gray-200">
+          <div class="flex justify-end space-x-3">
+            <%= link_to "Отмена", advertisements_path, class: "px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
+            <%= form.submit "Создать объявление",
+                            class: "px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 cursor-pointer" %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+
+  </div>
+</div>
