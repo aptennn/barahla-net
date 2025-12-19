@@ -10,7 +10,6 @@ class CreateAdvertisements < ActiveRecord::Migration[8.0]
       t.string :title, null: false
       t.text :description, null: false
       t.timestamps
-      t.index :category_id
     end
   end
 end

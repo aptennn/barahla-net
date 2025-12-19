@@ -1,6 +1,5 @@
 class Transport < ApplicationRecord
-  self.primary_key = 'category_id'
-
+  belongs_to :advertisement
   validates :brand, :model, presence: true
 
   def full_model_name

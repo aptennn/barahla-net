@@ -1,5 +1,5 @@
 class Thing < ApplicationRecord
-  self.primary_key = 'category_id'
+  belongs_to :advertisement
 
   def display_name
     "#{name} (#{type})"

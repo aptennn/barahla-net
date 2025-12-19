@@ -14,14 +14,37 @@ class AdvertisementsController < ApplicationController
   end
 
   def create
-    @advertisement = current_user.advertisements.new(ad_params)
-    if @advertisement.save
-      redirect_to advertisement_path(@advertisement), notice: 'Объявление успешно создано!'
-    else
-      @categories = Advertisement::CATEGORIES
-      @cities = City.all
-      render :new, status: :unprocessable_entity
+    all_params = params.require(:advertisement).to_unsafe_h
+
+    ad_params = all_params.slice(
+      'title', 'description', 'price', 'status',
+      'category_id', 'city_id'
+    )
+
+    @advertisement = Advertisement.new(ad_params)
+    @advertisement.user_id = current_user.id
+
+    if @advertisement.category_id.present?
+      category_params = extract_category_params(@advertisement.category_id, all_params)
+      @advertisement.build_category_detail(category_params)
     end
+
+    ActiveRecord::Base.transaction do
+      if @advertisement.save
+        if @advertisement.category_detail&.save
+          redirect_to advertisement_path(@advertisement), notice: 'Объявление успешно создано!'
+          return
+        else
+          raise ActiveRecord::Rollback
+        end
+      else
+        raise ActiveRecord::Rollback
+      end
+    end
+
+    @categories = Advertisement::CATEGORIES
+    @cities = City.all
+    render :new, status: :unprocessable_entity
   end
 
   def show
@@ -33,11 +56,34 @@ class AdvertisementsController < ApplicationController
   end
 
   def update
-    if @advertisement.update(ad_params)
-      redirect_to advertisement_path(@advertisement), notice: "Объявление обновлено!"
-    else
-      render :edit, status: :unprocessable_entity
+    all_params = params.require(:advertisement).to_unsafe_h
+
+    ad_params = all_params.slice(
+      'title', 'description', 'price', 'status',
+      'category_id', 'city_id'
+    )
+
+    ActiveRecord::Base.transaction do
+      if @advertisement.update(ad_params)
+        category_params = extract_category_params(@advertisement.category_id, all_params)
+
+        if @advertisement.category_detail
+          @advertisement.category_detail.update(category_params)
+        else
+          @advertisement.build_category_detail(category_params)
+          @advertisement.category_detail.save
+        end
+
+        redirect_to advertisement_path(@advertisement), notice: "Объявление обновлено!"
+        return
+      else
+        raise ActiveRecord::Rollback
+      end
     end
+
+    @categories = Advertisement::CATEGORIES
+    @cities = City.all
+    render :edit, status: :unprocessable_entity
   end
 
   def destroy
@@ -52,23 +98,34 @@ class AdvertisementsController < ApplicationController
   private
 
   def ad_params
-    permitted = [:title, :description, :price, :status, :category_id, :city_id]
-    category_id = params[:advertisement][:category_id].to_i if params[:advertisement]
+    params.require(:advertisement).permit(
+      :title, :description, :price, :status,
+      :category_id, :city_id
+    )
+  end
 
+  def extract_category_params(category_id, all_params)
     case category_id
     when 1
-      permitted += [:brand, :model, :year, :mileage, :fuel_type, :transmission, :engine_capacity]
+      all_params.slice(
+        'brand', 'model', 'year', 'mileage', 'fuel_type',
+        'transmission', 'engine_capacity'
+      )
     when 2
-      permitted += [:area, :rooms, :floor, :building_type]
+      params = all_params.slice(
+        'type', 'total_area', 'living_area', 'floor',
+        'total_floors', 'rooms_count'
+      )
+      params
     when 3
-      permitted += [:service_type, :experience, :availability]
+      all_params.slice('name')
     when 4
-      permitted += [:condition, :brand, :size, :color]
+      all_params.slice('name', 'type')
     when 5
-      permitted += [:position, :employment_type, :schedule, :experience_required]
+      all_params.slice('name')
+    else
+      {}
     end
-
-    params.require(:advertisement).permit(*permitted)
   end
 
   def set_advertisement

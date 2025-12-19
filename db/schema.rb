@@ -21,7 +21,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_12_08_195404) do
     t.text "description", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["category_id"], name: "index_advertisements_on_category_id"
     t.index ["city_id"], name: "index_advertisements_on_city_id"
     t.index ["user_id"], name: "index_advertisements_on_user_id"
   end
@@ -34,13 +33,15 @@ ActiveRecord::Schema[8.0].define(version: 2025_12_08_195404) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "jobs", primary_key: "category_id", force: :cascade do |t|
+  create_table "jobs", force: :cascade do |t|
     t.string "name", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "advertisement_id", null: false
+    t.index ["advertisement_id"], name: "index_jobs_on_advertisement_id"
   end
 
-  create_table "real_estates", primary_key: "category_id", force: :cascade do |t|
+  create_table "real_estates", force: :cascade do |t|
     t.string "type", null: false
     t.float "total_area", null: false
     t.float "living_area", null: false
@@ -49,22 +50,28 @@ ActiveRecord::Schema[8.0].define(version: 2025_12_08_195404) do
     t.integer "rooms_count", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "advertisement_id", null: false
+    t.index ["advertisement_id"], name: "index_real_estates_on_advertisement_id"
   end
 
-  create_table "services", primary_key: "category_id", force: :cascade do |t|
+  create_table "services", force: :cascade do |t|
     t.string "name", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "advertisement_id", null: false
+    t.index ["advertisement_id"], name: "index_services_on_advertisement_id"
   end
 
-  create_table "things", primary_key: "category_id", force: :cascade do |t|
+  create_table "things", force: :cascade do |t|
     t.string "name", null: false
     t.string "type", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "advertisement_id", null: false
+    t.index ["advertisement_id"], name: "index_things_on_advertisement_id"
   end
 
-  create_table "transports", primary_key: "category_id", force: :cascade do |t|
+  create_table "transports", force: :cascade do |t|
     t.string "brand", null: false
     t.string "model", null: false
     t.string "year", null: false
@@ -74,6 +81,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_12_08_195404) do
     t.integer "engine_capacity", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "advertisement_id", null: false
+    t.index ["advertisement_id"], name: "index_transports_on_advertisement_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -92,4 +101,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_12_08_195404) do
 
   add_foreign_key "advertisements", "cities", primary_key: "city_id"
   add_foreign_key "advertisements", "users"
+  add_foreign_key "jobs", "advertisements", primary_key: "ad_id"
+  add_foreign_key "real_estates", "advertisements", primary_key: "ad_id"
+  add_foreign_key "services", "advertisements", primary_key: "ad_id"
+  add_foreign_key "things", "advertisements", primary_key: "ad_id"
+  add_foreign_key "transports", "advertisements", primary_key: "ad_id"
 end
