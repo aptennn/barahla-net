@@ -43,7 +43,7 @@ export default class extends Controller{
 
     addRealEstateFields(){
         const fields = [
-            { name: 'type', label: 'Тип недвижимости', type: 'select',
+            { name: 'property_type', label: 'Тип недвижимости', type: 'select',
                 options: ['Квартира', 'Дом', 'Комната', 'Земельный участок'], required: true },
             { name: 'total_area', label: 'Общая площадь (м²)', type: 'number', step: '0.1', required: true },
             { name: 'living_area', label: 'Жилая площадь (м²)', type: 'number', step: '0.1', required: true },
@@ -65,7 +65,7 @@ export default class extends Controller{
     addThingFields(){
         const fields = [
             { name: 'name', label: 'Название вещи', type: 'text', required: true },
-            { name: 'type', label: 'Тип вещи', type: 'select', required: true,
+            { name: 'item_type', label: 'Тип вещи', type: 'select', required: true,
                 options: [
                     'Электроника',
                     'Одежда и обувь',

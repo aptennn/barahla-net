@@ -42,7 +42,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_12_08_195404) do
   end
 
   create_table "real_estates", force: :cascade do |t|
-    t.string "type", null: false
+    t.string "property_type", null: false
     t.float "total_area", null: false
     t.float "living_area", null: false
     t.integer "floor", null: false
@@ -64,7 +64,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_12_08_195404) do
 
   create_table "things", force: :cascade do |t|
     t.string "name", null: false
-    t.string "type", null: false
+    t.string "item_type", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "advertisement_id", null: false

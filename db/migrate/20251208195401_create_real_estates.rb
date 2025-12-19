@@ -1,7 +1,7 @@
 class CreateRealEstates < ActiveRecord::Migration[8.0]
   def change
     create_table :real_estates do |t|
-      t.string :type, null: false
+      t.string :property_type, null: false
       t.float :total_area, null: false
       t.float :living_area, null: false
       t.integer :floor, null: false

@@ -113,14 +113,14 @@ class AdvertisementsController < ApplicationController
       )
     when 2
       params = all_params.slice(
-        'type', 'total_area', 'living_area', 'floor',
+        'property_type', 'total_area', 'living_area', 'floor',
         'total_floors', 'rooms_count'
       )
       params
     when 3
       all_params.slice('name')
     when 4
-      all_params.slice('name', 'type')
+      all_params.slice('name', 'item_type')
     when 5
       all_params.slice('name')
     else
