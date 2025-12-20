@@ -1,23 +1,41 @@
 import { Controller } from "@hotwired/stimulus"
 
-export default class extends Controller{
-    static targets = ["categorySelect", "form", "dynamicFields"]
+export default class extends Controller {
+    static targets = ["categorySelect", "dynamicFields", "fileInput", "fileCount"]
+    static values = { categoryData: Object }
 
     connect() {
+        console.log("Advertisements controller connected");
+        console.log("Category data value:", this.hasCategoryDataValue ? this.categoryDataValue : "none");
+
+        // Сначала показываем поля
         this.showDynamicFields();
-        this.categorySelectTarget.addEventListener('change', () => {
-            this.showDynamicFields();
-        });
+
+        // Затем заполняем существующие значения, если есть
+        if (this.hasCategoryDataValue && this.categoryDataValue) {
+            setTimeout(() => {
+                this.fillExistingFields();
+            }, 100);
+        }
+
+        // Инициализируем счетчик файлов
+        this.updateFileCount();
     }
 
-    showDynamicFields(){
-        const categoryID = this.categorySelectTarget.value
-        const dynamicFields = this.dynamicFieldsTarget
+    showDynamicFields() {
+        const categoryID = this.categorySelectTarget ? this.categorySelectTarget.value : this.element.querySelector('[name="advertisement[category_id]"]')?.value;
 
-        // Тут мы очищаем предыдущие поля
-        dynamicFields.innerHTML = ""
+        console.log("Showing dynamic fields for category:", categoryID);
 
-        switch (categoryID){
+        if (!categoryID || categoryID === '') {
+            this.dynamicFieldsTarget.innerHTML = "";
+            return;
+        }
+
+        const dynamicFields = this.dynamicFieldsTarget;
+        dynamicFields.innerHTML = "";
+
+        switch (categoryID) {
             case '1': this.addTransportFields(); break;
             case '2': this.addRealEstateFields(); break;
             case '3': this.addServiceFields(); break;
@@ -26,7 +44,49 @@ export default class extends Controller{
         }
     }
 
-    addTransportFields(){
+    fillExistingFields() {
+        try {
+            const categoryData = typeof this.categoryDataValue === 'string'
+                ? JSON.parse(this.categoryDataValue)
+                : this.categoryDataValue;
+
+            console.log("Filling existing fields:", categoryData);
+
+            if (!categoryData || Object.keys(categoryData).length === 0) return;
+
+            Object.keys(categoryData).forEach(fieldName => {
+                const input = this.element.querySelector(`[name="advertisement[${fieldName}]"]`);
+                if (input) {
+                    input.value = categoryData[fieldName];
+                    console.log(`Set field ${fieldName} to:`, categoryData[fieldName]);
+                } else {
+                    console.log(`Field ${fieldName} not found`);
+                }
+            });
+        } catch (error) {
+            console.error("Error filling existing fields:", error);
+        }
+    }
+
+    updateFileCount() {
+        if (!this.hasFileInputTarget) return;
+
+        const count = this.fileInputTarget.files.length;
+        const fileCountElement = this.fileCountTarget;
+
+        if (count === 0) {
+            fileCountElement.textContent = 'Файлы не выбраны';
+        } else if (count === 1) {
+            fileCountElement.textContent = 'Выбран 1 файл';
+        } else if (count < 5) {
+            fileCountElement.textContent = `Выбрано ${count} файла`;
+        } else {
+            fileCountElement.textContent = `Выбрано ${count} файлов`;
+        }
+    }
+
+    // Методы для добавления полей по категориям
+    addTransportFields() {
         const fields = [
             { name: 'brand', label: 'Марка', type: 'text', required: true },
             { name: 'model', label: 'Модель', type: 'text', required: true },
@@ -37,11 +97,11 @@ export default class extends Controller{
             { name: 'transmission', label: 'Коробка передач', type: 'select',
                 options: ['Автомат' ,'Вариатор', 'Робот', 'Механическая'], required: true },
             { name: 'engine_capacity', label: 'Объем двигателя (см³)', type: 'number', required: true }
-        ]
+        ];
         this.createDynamicFields(fields);
     }
 
-    addRealEstateFields(){
+    addRealEstateFields() {
         const fields = [
             { name: 'property_type', label: 'Тип недвижимости', type: 'select',
                 options: ['Квартира', 'Дом', 'Комната', 'Земельный участок'], required: true },
@@ -50,19 +110,18 @@ export default class extends Controller{
             { name: 'floor', label: 'Этаж', type: 'number', required: true },
             { name: 'total_floors', label: 'Этажей в доме', type: 'number', required: true },
             { name: 'rooms_count', label: 'Количество комнат', type: 'number', required: true }
-        ]
+        ];
         this.createDynamicFields(fields);
     }
 
-    addServiceFields(){
+    addServiceFields() {
         const fields = [
             { name: 'name', label: 'Название услуги', type: 'text', required: true }
         ];
-
         this.createDynamicFields(fields);
     }
 
-    addThingFields(){
+    addThingFields() {
         const fields = [
             { name: 'name', label: 'Название вещи', type: 'text', required: true },
             { name: 'item_type', label: 'Тип вещи', type: 'select', required: true,
@@ -81,25 +140,23 @@ export default class extends Controller{
                 ]
             }
         ];
-
         this.createDynamicFields(fields);
     }
 
-    addJobFields(){
+    addJobFields() {
         const fields = [
             { name: 'name', label: 'Название вакансии', type: 'text', required: true }
         ];
-
         this.createDynamicFields(fields);
     }
 
-    createDynamicFields(fields){
+    createDynamicFields(fields) {
         const container = this.dynamicFieldsTarget;
 
-        fields.forEach(field =>
-        {
+        fields.forEach(field => {
             const div = document.createElement('div');
-            div.className = 'field';
+            div.className = 'field mb-4';
+
             const label = document.createElement('label');
             label.className = 'block text-sm font-medium text-gray-700';
             label.textContent = field.label;

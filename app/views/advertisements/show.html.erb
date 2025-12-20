@@ -4,11 +4,62 @@
 
     <div class="bg-white rounded-lg shadow-lg overflow-hidden">
       <!-- Основная информация -->
-      <%= link_to "Назад", advertisements_path,
-                  class: "px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 mr-3" %>
+      <div class="p-4 border-b">
+        <%= link_to "Назад", advertisements_path,
+                    class: "inline-flex items-center px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 transition-colors" %>
+      </div>
+
       <div class="p-6 md:p-8">
+        <!-- Фотографии объявления -->
+        <% if @advertisement.advertisement_pictures.any? %>
+          <div class="mb-8">
+            <h2 class="text-xl font-semibold text-gray-800 mb-4">Фотографии</h2>
+
+            <!-- Галерея миниатюр -->
+            <div class="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 gap-2">
+              <% @advertisement.advertisement_pictures.order(:position).each_with_index do |picture, index| %>
+                <% if picture.image.attached? %>
+                  <div class="relative cursor-pointer group"
+                       data-action="click->gallery#changeImage"
+                       data-index="<%= index %>">
+                    <div class="aspect-square rounded-md overflow-hidden border-2 border-transparent hover:border-blue-500 transition-all">
+                      <%= image_tag rails_blob_path(picture.image),
+                                    class: "w-full h-full object-cover",
+                                    alt: "Фото #{index + 1}" %>
+                    </div>
+
+                    <!-- Индикатор текущего фото -->
+                    <% if index == 0 %>
+                      <div class="absolute inset-0 border-2 border-blue-500 rounded-md pointer-events-none"></div>
+                    <% end %>
+
+                    <!-- Номер фото при наведении -->
+                    <div class="absolute bottom-1 right-1 bg-black bg-opacity-60 text-white text-xs px-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">
+                      <%= index + 1 %>
+                    </div>
+                  </div>
+                <% end %>
+              <% end %>
+            </div>
+
+            <!-- Количество фото -->
+            <div class="mt-3 text-sm text-gray-500">
+              Всего фотографий: <%= @advertisement.advertisement_pictures.count %>
+            </div>
+          </div>
+        <% else %>
+          <!-- Заглушка если нет фото -->
+          <div class="mb-8 flex flex-col items-center justify-center py-12 bg-gray-50 rounded-lg">
+            <svg class="w-24 h-24 text-gray-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+            </svg>
+            <h3 class="text-lg font-medium text-gray-600 mb-2">Нет фотографий</h3>
+            <p class="text-gray-500 text-sm">У этого объявления пока нет фотографий</p>
+          </div>
+        <% end %>
+
         <!-- Заголовок и цена в одном блоке -->
-        <div class="mb-6">
+        <div class="mb-8">
           <h1 class="text-3xl font-bold text-gray-900 mb-4"><%= @advertisement.title %></h1>
 
           <!-- Мета-информация -->
@@ -24,6 +75,16 @@
           <div class="flex items-center justify-between">
             <span class="text-3xl font-bold text-blue-600">
               <%= number_to_currency(@advertisement.price, unit: "₽", format: "%n %u") %>
+            </span>
+
+            <!-- Статус -->
+            <span class="px-3 py-1 text-sm font-medium rounded-full
+              <%= @advertisement.status == 'active' ? 'bg-green-100 text-green-800' :
+                                             @advertisement.status == 'sold' ? 'bg-red-100 text-red-800' :
+                                               @advertisement.status == 'inactive' ? 'bg-yellow-100 text-yellow-800' :
+                                                 @advertisement.status == 'reserved' ? 'bg-blue-100 text-blue-800' :
+                                                   'bg-gray-100 text-gray-800' %>">
+              <%= I18n.t("advertisements.status.#{@advertisement.status}", default: @advertisement.status) %>
             </span>
           </div>
         </div>
@@ -56,26 +117,64 @@
                 <span class="font-medium">Местоположение:</span> <%= @advertisement.city.name %>
               </p>
             </div>
-
           </div>
         </div>
-        <div class="flex">
-          <%= link_to "Написать продавцу", edit_advertisement_path(@advertisement),
-                      class: "px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 mr-3" %>
-        </div>
 
-        <% if current_user == @advertisement.user %>
-          <%= link_to "Редактировать", edit_advertisement_path(@advertisement),
-                      class: "px-4 py-2 bg-red-600 text-white rounded-md text-sm font-medium hover:bg-red-700 mr-3" %>
-          <%= link_to "Удалить", advertisement_path(@advertisement),
-                      method: :delete,
-                      data: { confirm: "Вы уверены?" },
-                      class: "px-4 py-2 bg-red-600 text-white rounded-md text-sm font-medium hover:bg-red-700" %>
-        <% end %>
+        <!-- Кнопки действий -->
+        <div class="mt-8 pt-6 border-t flex flex-wrap gap-3">
+          <% if current_user == @advertisement.user %>
+            <%= link_to "Редактировать", edit_advertisement_path(@advertisement),
+                        class: "px-6 py-3 bg-blue-600 text-white rounded-md text-sm font-medium hover:bg-blue-700 transition-colors" %>
+            <%= button_to "Удалить", advertisement_path(@advertisement),
+                        method: :delete,
+                        data: {
+                          confirm: "Вы уверены, что хотите удалить это объявление?",
+                          turbo_confirm: "Вы уверены, что хотите удалить это объявление?"
+                        },
+                        class: "px-6 py-3 bg-red-600 text-white rounded-md text-sm font-medium hover:bg-red-700 transition-colors" %>
+            <%= link_to "Назад к списку", advertisements_path,
+                        class: "px-6 py-3 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 transition-colors" %>
+          <% else %>
+            <%= link_to "Написать продавцу", "#",
+                        class: "px-6 py-3 bg-green-600 text-white rounded-md text-sm font-medium hover:bg-green-700 transition-colors" %>
+            <%= link_to "Назад к объявлениям", advertisements_path,
+                        class: "px-6 py-3 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 transition-colors" %>
+          <% end %>
+        </div>
       </div>
     </div>
   </div>
 </div>
 
-Сделай вместо кнопки назад стрелку.
-И нижние кнопки редактировать удалить как можно сделать красивее
+<!-- JavaScript для галереи (можно вынести в отдельный файл) -->
+<% if @advertisement.advertisement_pictures.any? %>
+  <script>
+      document.addEventListener('DOMContentLoaded', function() {
+          const images = <%= @advertisement.advertisement_pictures.order(:position)
+                         .select { |p| p.image.attached? }
+                         .map { |p| rails_blob_path(p.image) }.to_json.html_safe %>;
+
+          if (images.length > 0) {
+              const mainImage = document.getElementById('main-image');
+              const thumbnails = document.querySelectorAll('[data-action="click->gallery#changeImage"]');
+
+              thumbnails.forEach((thumbnail, index) => {
+                  thumbnail.addEventListener('click', function() {
+                      // Меняем основное изображение
+                      mainImage.src = images[index];
+
+                      // Убираем выделение со всех миниатюр
+                      thumbnails.forEach(thumb => {
+                          thumb.querySelector('div').classList.remove('border-blue-500');
+                          thumb.querySelector('div').classList.add('border-transparent');
+                      });
+
+                      // Добавляем выделение текущей миниатюре
+                      this.querySelector('div').classList.add('border-blue-500');
+                      this.querySelector('div').classList.remove('border-transparent');
+                  });
+              });
+          }
+      });
+  </script>
+<% end %>

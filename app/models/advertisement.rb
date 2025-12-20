@@ -7,7 +7,7 @@ class Advertisement < ApplicationRecord
   ## Одна из записей будет заполнена в зависимости от значения category_id
   has_one :transport, dependent: :destroy
   has_one :real_estate, dependent: :destroy
-  has_one :service, dependent: :destroy
+  has_one :services, dependent: :destroy
   has_one :thing, dependent: :destroy
   has_one :job, dependent: :destroy
 
