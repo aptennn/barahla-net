@@ -9,10 +9,104 @@ class AdvertisementsController < ApplicationController
   end
 
   def index
-    @advertisements = Advertisement.includes(:user).recent
+    @cities = City.all
+    scope = Advertisement.includes(:user, :city).all
+
+    # Основные фильтры
+    scope = scope.where(category_id: params[:category_id]) if params[:category_id].present?
+    scope = scope.where(city_id: params[:city_id]) if params[:city_id].present?
+    scope = scope.where(status: params[:status]) if params[:status].present?
+
+    # Ценовые фильтры
+    if params[:min_price].present?
+      scope = scope.where("price >= ?", params[:min_price].to_f)
+    end
+    if params[:max_price].present?
+      scope = scope.where("price <= ?", params[:max_price].to_f)
+    end
+
+    # Фильтры по категориям (добавьте это)
+    scope = apply_category_filters(scope) if params[:category_id].present?
+
+    @advertisements = scope.order(created_at: :desc).page(params[:page]).per(15)
     @my_advertisements = current_user.advertisements.recent if logged_in?
   end
 
+  def apply_category_filters(scope)
+    case params[:category_id].to_i
+    when 1
+      scope = apply_transport_filters(scope)
+    when 2
+      scope = apply_real_estate_filters(scope)
+    when 3
+      scope = apply_service_filters(scope)
+    when 4
+      scope = apply_thing_filters(scope)
+    when 5
+      scope = apply_job_filters(scope)
+    end
+    scope
+  end
+  def apply_transport_filters(scope)
+    scope = scope.joins(:transport).where("transports.brand ILIKE ?", "%#{params[:brand]}%") if params[:brand].present?
+    scope = scope.joins(:transport).where("transports.model ILIKE ?", "%#{params[:model]}%") if params[:model].present?
+
+    if params[:year_from].present?
+      scope = scope.joins(:transport).where("transports.year >= ?", params[:year_from].to_i)
+    end
+
+    if params[:year_to].present?
+      scope = scope.joins(:transport).where("transports.year <= ?", params[:year_to].to_i)
+    end
+
+    scope = scope.joins(:transport).where(transports: { fuel_type: params[:fuel_type] }) if params[:fuel_type].present?
+    scope = scope.joins(:transport).where(transports: { transmission: params[:transmission] }) if params[:transmission].present?
+
+    if params[:mileage_to].present?
+      scope = scope.joins(:transport).where("transports.mileage <= ?", params[:mileage_to].to_i)
+    end
+
+    scope
+  end
+
+  def apply_real_estate_filters(scope)
+    scope = scope.joins(:real_estate).where(real_estates: { property_type: params[:property_type] }) if params[:property_type].present?
+    scope = scope.joins(:real_estate).where(real_estates: { rooms_count: params[:rooms_count] }) if params[:rooms_count].present?
+
+    if params[:total_area_from].present?
+      scope = scope.joins(:real_estate).where("real_estates.total_area >= ?", params[:total_area_from].to_f)
+    end
+
+    if params[:total_area_to].present?
+      scope = scope.joins(:real_estate).where("real_estates.total_area <= ?", params[:total_area_to].to_f)
+    end
+
+    if params[:floor_from].present?
+      scope = scope.joins(:real_estate).where("real_estates.floor >= ?", params[:floor_from].to_i)
+    end
+
+    if params[:total_floors_from].present?
+      scope = scope.joins(:real_estate).where("real_estates.total_floors >= ?", params[:total_floors_from].to_i)
+    end
+
+    scope
+  end
+
+  def apply_service_filters(scope)
+    scope = scope.joins(:service).where("services.name ILIKE ?", "%#{params[:service_name]}%") if params[:service_name].present?
+    scope
+  end
+
+  def apply_thing_filters(scope)
+    scope = scope.joins(:thing).where("things.name ILIKE ?", "%#{params[:thing_name]}%") if params[:thing_name].present?
+    scope = scope.joins(:thing).where(things: { item_type: params[:item_type] }) if params[:item_type].present?
+    scope
+  end
+
+  def apply_job_filters(scope)
+    scope = scope.joins(:job).where("jobs.name ILIKE ?", "%#{params[:job_name]}%") if params[:job_name].present?
+    scope
+  end
   def create
     all_params = params.require(:advertisement).to_unsafe_h
 
@@ -146,13 +240,28 @@ class AdvertisementsController < ApplicationController
     else
       {}
     end
-  end
+    end
+
+
+  public
+
   def category_filters
     @category_id = params[:category_id]
-    render template: "advertisements/filters/#{filter_template_name}", layout: false
+    render template: "/filters/#{filter_template_name}", layout: false
   end
 
   def set_advertisement
     @advertisement = Advertisement.find(params[:id])
+  end
+  private
+  def filter_template_name
+    case @category_id
+    when "1" then "transport_filters"
+    when "2" then "real_estate_filters"
+    when "3" then "service_filters"
+    when "4" then "thing_filters"
+    when "5" then "job_filters"
+    else "empty"
+    end
   end
 end
