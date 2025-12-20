@@ -116,6 +116,10 @@ module AdvertisementsHelper
     render_dynamic_fields(fields)
   end
 
+  def advertisement_owner?(advertisement)
+    current_user && advertisement.user_id == current_user.id
+  end
+
   def render_dynamic_fields(fields)
     fields.map do |field|
       content_tag(:div, class: 'field') do

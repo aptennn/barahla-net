@@ -16,43 +16,26 @@
 <% end %>
 
 <div class="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50">
-  <!-- Навигация -->
-  <nav class="bg-white shadow-lg">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex justify-between h-16">
-        <div class="flex items-center">
-          <h1 class="text-xl font-bold text-gray-900">Мое Приложение</h1>
-        </div>
 
-        <div class="flex items-center space-x-4">
-          <% if logged_in? %>
-            <span class="text-gray-700">Привет, <%= current_user.username %>!</span>
-            <%= link_to "Дашборд", dashboard_path, class: "text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium" %>
-            <%= button_to "Выйти", logout_path, method: :delete,
-                          class: "bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 text-sm font-medium" %>
-          <% else %>
-            <%= link_to "Войти", login_path, class: "text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium" %>
-            <%= link_to "Регистрация", register_path,
-                        class: "bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 text-sm font-medium" %>
-          <% end %>
-        </div>
-      </div>
-    </div>
-  </nav>
+  <!-- Навигация -->
+
+  <% provide :navbar_title, "Барахла.НЕТ!" %>
+  <%= render "layouts/navbar" %>
 
   <!-- Контент -->
   <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
-    <div class="text-center">
-      <h2 class="text-3xl font-extrabold text-gray-900 sm:text-4xl">
-        Добро пожаловать!
-      </h2>
-      <p class="mt-4 text-lg text-gray-600">
-        <% if logged_in? %>
-          Вы успешно авторизованы. Перейдите в <a href="<%= dashboard_path %>" class="text-blue-600 hover:text-blue-800">личный кабинет</a>.
-        <% else %>
-          Пожалуйста, <a href="<%= login_path %>" class="text-blue-600 hover:text-blue-800">войдите</a> или <a href="<%= register_path %>" class="text-blue-600 hover:text-blue-800">зарегистрируйтесь</a>.
-        <% end %>
-      </p>
-    </div>
+
+    <%= render "advertisements/search_form" %>
+
+
+    <% if Advertisement.includes(:user).order(created_at: :desc).any? %>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6 lg:gap-7">
+        <%= render partial: "shared/advertisements/advertisement_card", collection: Advertisement.includes(:user).order(created_at: :desc), as: :advertisement %>
+      </div>
+
+    <% else %>
+
+    <%end %>
+
   </div>
 </div>

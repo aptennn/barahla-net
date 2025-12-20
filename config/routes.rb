@@ -29,11 +29,9 @@ Rails.application.routes.draw do
   post 'register', to: 'users#create'
 
   # Профиль (только для авторизованных)
-  get 'profile', to: 'users#show'
+  get 'profile', to: 'pages#profile'
 
-  # Страницы
-  get 'dashboard', to: 'pages#dashboard'
-
+  get '/advertisements/category_filters'
   # Работа с объявлениями
   resources :advertisements do
     collection do

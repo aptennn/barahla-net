@@ -1,0 +1,53 @@
+<div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow">
+  <div class="p-6">
+    <!-- Заголовок и статус -->
+    <div class="flex justify-between items-start mb-4">
+      <h3 class="text-lg font-semibold text-gray-900"><%= advertisement.title %></h3>
+      <span class="px-2 py-1 text-xs font-medium rounded-full
+        <%= advertisement.status == 'active' ? 'bg-green-100 text-green-800' :
+                                 advertisement.status == 'sold' ? 'bg-red-100 text-red-800' :
+                                   'bg-yellow-100 text-yellow-800' %>">
+        <%= I18n.t("advertisements.status.#{advertisement.status}", default: advertisement.status) %>
+      </span>
+    </div>
+
+    <!-- Описание -->
+    <p class="text-gray-600 mb-4 line-clamp-2"><%= advertisement.description.truncate(100) %></p>
+
+    <!-- Информация -->
+    <div class="space-y-2 mb-4">
+      <div class="flex justify-between">
+        <span class="text-sm text-gray-500">Категория:</span>
+        <span class="text-sm font-medium text-gray-900">
+          <%= Advertisement::CATEGORIES[advertisement.category_id] %>
+        </span>
+      </div>
+      <div class="flex justify-between">
+        <span class="text-sm text-gray-500">Цена:</span>
+        <span class="text-sm font-bold text-blue-600">
+          <%= number_to_currency(advertisement.price, unit: "₽", delimiter: " ", format: "%n %u") %>
+        </span>
+      </div>
+      <div class="flex justify-between">
+        <span class="text-sm text-gray-500">ID объявления:</span>
+        <span class="text-sm text-gray-900 font-mono">
+          #<%= advertisement.ad_id %>
+        </span>
+      </div>
+      <div class="flex justify-between">
+        <span class="text-sm text-gray-500">Дата создания:</span>
+        <span class="text-sm text-gray-900">
+          <%= advertisement.created_at.strftime("%d.%m.%Y") %>
+        </span>
+      </div>
+    </div>
+    <% if advertisement_owner?(advertisement) %>
+    <div class="flex space-x-2">
+      <%= link_to "Просмотр", advertisement_path(advertisement),
+                  class: "flex-1 text-center bg-blue-50 text-blue-600 hover:bg-blue-100 px-3 py-2 rounded-lg text-sm font-medium" %>
+      <%= link_to "Редактировать", edit_advertisement_path(advertisement),
+                  class: "flex-1 text-center bg-gray-100 text-gray-700 hover:bg-gray-200 px-3 py-2 rounded-lg text-sm font-medium" %>
+    </div>
+    <% end %>
+  </div>
+</div>

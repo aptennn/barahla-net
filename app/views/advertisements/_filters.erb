@@ -1,0 +1,107 @@
+<div class="bg-white rounded-xl shadow-md p-5 mb-6">
+  <%= form_with url: advertisements_path, method: :get, local: true, id: "filters-form", class: "space-y-5" do |f| %>
+    <!-- Основные фильтры -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+      <!-- Категория -->
+      <div>
+        <%= f.label :category_id, "Категория", class: "block text-sm font-medium text-gray-700 mb-1" %>
+        <%= f.select :category_id,
+                     options_for_select([["Любая", ""]] + Advertisement::CATEGORIES.map { |id, name| [name, id] }, params[:category_id]),
+                     {},
+                     { class: "w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500",
+                       onchange: "toggleCategoryFields()" } %>
+      </div>
+
+      <!-- Город -->
+      <div>
+        <%= f.label :city_id, "Город", class: "block text-sm font-medium text-gray-700 mb-1" %>
+        <%= f.select :city_id,
+                     options_for_select([["Любой", ""]] + (@cities || City.all).map { |c| [c.name, c.id] }, params[:city_id]),
+                     {},
+                     class: "w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" %>
+      </div>
+
+      <!-- Статус -->
+      <div>
+        <%= f.label :status, "Статус", class: "block text-sm font-medium text-gray-700 mb-1" %>
+        <%= f.select :status,
+                     options_for_select([
+                                          ["Любой", ""],
+                                          ["Активные", "active"],
+                                          ["Продано", "sold"],
+                                          ["Черновик", "draft"]
+                                        ], params[:status]),
+                     {},
+                     class: "w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" %>
+      </div>
+
+      <!-- Цена -->
+      <div class="grid grid-cols-2 gap-2">
+        <div>
+          <%= f.label :min_price, "Цена от", class: "block text-sm font-medium text-gray-700 mb-1" %>
+          <%= f.number_field :min_price,
+                             value: params[:min_price],
+                             min: 0,
+                             placeholder: "0",
+                             class: "w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" %>
+        </div>
+        <div>
+          <%= f.label :max_price, "до", class: "block text-sm font-medium text-gray-700 mb-1" %>
+          <%= f.number_field :max_price,
+                             value: params[:max_price],
+                             min: 0,
+                             placeholder: "100 000",
+                             class: "w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" %>
+        </div>
+      </div>
+    </div>
+
+    <div id="category-filters">
+      <% if params[:category_id] == "1" %>
+        <%= render "filters/transport_filters", f: f, params: params %>
+      <% elsif params[:category_id] == "2" %>
+        <%= render "filters/real_estate_filters", f: f, params: params %>
+      <% elsif params[:category_id] == "3" %>
+        <%= render "filters/service_filters", f: f, params: params %>
+      <% elsif params[:category_id] == "4" %>
+        <%= render "filters/thing_filters", f: f, params: params %>
+      <% elsif params[:category_id] == "5" %>
+        <%= render "filters/job_filters", f: f, params: params %>
+      <% end %>
+    </div>
+
+    <!-- Кнопки -->
+    <div class="flex flex-col sm:flex-row sm:justify-between gap-3">
+      <%= f.submit "Применить фильтры",
+                   class: "px-5 py-2.5 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition" %>
+      <%= link_to "Сбросить", advertisements_path,
+                  class: "px-5 py-2.5 text-gray-700 bg-gray-100 hover:bg-gray-200 font-medium rounded-lg text-center" %>
+    </div>
+  <% end %>
+</div>
+
+
+<script>
+    function toggleCategoryFields() {
+        const categoryId = document.getElementById('filters-form').querySelector('[name="category_id"]').value;
+        const filtersDiv = document.getElementById('category-filters');
+
+
+        filtersDiv.innerHTML = categoryId ? '<div class="text-gray-500">Загрузка фильтров...</div>' : '';
+
+        if (categoryId) {
+            fetch(`/advertisements/category_filters?category_id=${categoryId}`, {
+                headers: { 'Accept': 'text/html' }
+            })
+                .then(r => r.text())
+                .then(html => filtersDiv.innerHTML = html)
+                .catch(() => filtersDiv.innerHTML = '<div class="text-red-500">Ошибка загрузки</div>');
+        }
+    }
+
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const catId = new URLSearchParams(window.location.search).get('category_id');
+        if (catId) toggleCategoryFields();
+    });
+</script>
