@@ -1,0 +1,18 @@
+<div class=" rounded-xl overflow-hidden">
+  <div class="overflow-x-auto">
+    <% if advertisements.empty? %>
+      <div class="px-6 py-12 text-center text-gray-500">
+        Ничего не найдено.
+      </div>
+    <% else %>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6 lg:gap-7">
+        <% advertisements.each do |advertisement| %>
+          <%= render "shared/advertisements/advertisement_card",
+                     advertisement: advertisement %>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+
+
+</div>

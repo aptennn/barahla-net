@@ -48,6 +48,10 @@
       <%= link_to "Редактировать", edit_advertisement_path(advertisement),
                   class: "flex-1 text-center bg-gray-100 text-gray-700 hover:bg-gray-200 px-3 py-2 rounded-lg text-sm font-medium" %>
     </div>
+      <%else %>
+      <%= link_to "Просмотр", advertisement_path(advertisement),
+                  class: "flex-1 text-center bg-gray-100 text-gray-700 hover:bg-gray-200 px-3 py-2 rounded-lg text-sm font-medium flex items-center justify-center" %>
+
     <% end %>
   </div>
 </div>
