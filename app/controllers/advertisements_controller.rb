@@ -53,6 +53,26 @@ class AdvertisementsController < ApplicationController
   def edit
     @categories = Advertisement::CATEGORIES
     @cities = City.all
+
+    @category_data = {}
+    if @advertisement.category_detail
+      case @advertisement.category_id
+      when 1
+        @category_data = @advertisement.transport.attributes.slice(
+          'brand', 'model', 'year', 'mileage', 'fuel_type', 'transmission', 'engine_capacity'
+        )
+      when 2
+        @category_data = @advertisement.real_estate.attributes.slice(
+          'property_type', 'total_area', 'living_area', 'floor', 'total_floors', 'rooms_count'
+        )
+      when 3
+        @category_data = @advertisement.service.attributes.slice('name')
+      when 4
+        @category_data = @advertisement.thing.attributes.slice('name', 'item_type')
+      when 5
+        @category_data = @advertisement.job.attributes.slice('name')
+      end
+    end
   end
 
   def update
