@@ -1,0 +1,81 @@
+<div class="min-h-screen bg-gradient-to-br from-blue-50 to-gray-100 py-12 px-4 sm:px-6 lg:px-8">
+
+  <div class="max-w-4xl mx-auto">
+
+    <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+      <!-- Основная информация -->
+      <%= link_to "Назад", advertisements_path,
+                  class: "px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 mr-3" %>
+      <div class="p-6 md:p-8">
+        <!-- Заголовок и цена в одном блоке -->
+        <div class="mb-6">
+          <h1 class="text-3xl font-bold text-gray-900 mb-4"><%= @advertisement.title %></h1>
+
+          <!-- Мета-информация -->
+          <div class="mt-2 flex items-center space-x-4 text-sm text-gray-500 mb-4">
+            <span>Категория: <%= Advertisement::CATEGORIES[@advertisement.category_id] %></span>
+            <span>•</span>
+            <span>Город: <%= @advertisement.city.name %></span>
+            <span>•</span>
+            <span>Опубликовано: <%= l(@advertisement.created_at, format: :short) %></span>
+          </div>
+
+          <!-- Цена -->
+          <div class="flex items-center justify-between">
+            <span class="text-3xl font-bold text-blue-600">
+              <%= number_to_currency(@advertisement.price, unit: "₽", format: "%n %u") %>
+            </span>
+          </div>
+        </div>
+
+        <!-- Описание -->
+        <div class="mb-8">
+          <h2 class="text-xl font-semibold text-gray-800 mb-4">Описание</h2>
+          <div class="prose prose-lg text-gray-700">
+            <%= simple_format(@advertisement.description) %>
+          </div>
+        </div>
+
+        <!-- Динамические атрибуты -->
+        <div class="bg-gray-50 rounded-lg shadow-md p-6 mb-6">
+          <h2 class="text-xl font-semibold text-gray-800 mb-4">Характеристики</h2>
+          <div class="mt-4">
+            <%= render_category_fields_display(@advertisement) %>
+          </div>
+        </div>
+
+        <!-- Контактная информация -->
+        <div class="border-t pt-6">
+          <h2 class="text-xl font-semibold text-gray-800 mb-4">Контактная информация</h2>
+          <div class="flex items-center space-x-4">
+            <div class="flex-1">
+              <p class="text-gray-700">
+                <span class="font-medium">Автор:</span> <%= @advertisement.user.email %>
+              </p>
+              <p class="text-gray-700 mt-2">
+                <span class="font-medium">Местоположение:</span> <%= @advertisement.city.name %>
+              </p>
+            </div>
+
+          </div>
+        </div>
+        <div class="flex">
+          <%= link_to "Написать продавцу", edit_advertisement_path(@advertisement),
+                      class: "px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 mr-3" %>
+        </div>
+
+        <% if current_user == @advertisement.user %>
+          <%= link_to "Редактировать", edit_advertisement_path(@advertisement),
+                      class: "px-4 py-2 bg-red-600 text-white rounded-md text-sm font-medium hover:bg-red-700 mr-3" %>
+          <%= link_to "Удалить", advertisement_path(@advertisement),
+                      method: :delete,
+                      data: { confirm: "Вы уверены?" },
+                      class: "px-4 py-2 bg-red-600 text-white rounded-md text-sm font-medium hover:bg-red-700" %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+
+Сделай вместо кнопки назад стрелку.
+И нижние кнопки редактировать удалить как можно сделать красивее

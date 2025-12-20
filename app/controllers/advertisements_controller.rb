@@ -48,6 +48,9 @@ class AdvertisementsController < ApplicationController
   end
 
   def show
+    @advertisement = Advertisement.find(params[:id])
+  rescue ActiveRecord::RecordNotFound
+    redirect_to advertisements_path, alert: "Объявление не найдено"
   end
 
   def edit
