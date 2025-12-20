@@ -11,6 +11,9 @@ class Advertisement < ApplicationRecord
   has_one :thing, dependent: :destroy
   has_one :job, dependent: :destroy
 
+  has_many :advertisement_pictures, foreign_key: 'ad_id', dependent: :destroy
+  accepts_nested_attributes_for :advertisement_pictures, allow_destroy: true
+
   CATEGORIES = {
     1 => 'Транспорт',
     2 => 'Недвижимость',

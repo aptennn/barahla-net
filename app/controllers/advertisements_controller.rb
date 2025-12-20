@@ -25,13 +25,178 @@ class AdvertisementsController < ApplicationController
       scope = scope.where("price <= ?", params[:max_price].to_f)
     end
 
-    # Фильтры по категориям (добавьте это)
+    # Фильтры по категориям
     scope = apply_category_filters(scope) if params[:category_id].present?
 
     @advertisements = scope.order(created_at: :desc).page(params[:page]).per(15)
     @my_advertisements = current_user.advertisements.recent if logged_in?
   end
 
+  def create
+    all_params = params.require(:advertisement).to_unsafe_h
+
+    ad_params = all_params.slice(
+      'title', 'description', 'price', 'status',
+      'category_id', 'city_id'
+    )
+
+    @advertisement = Advertisement.new(ad_params)
+    @advertisement.user_id = current_user.id
+
+    if @advertisement.category_id.present?
+      category_params = extract_category_params(@advertisement.category_id, all_params)
+      @advertisement.build_category_detail(category_params)
+    end
+
+    ActiveRecord::Base.transaction do
+      if @advertisement.save
+        if @advertisement.category_detail&.save
+          # Загрузка фотографий
+          if params[:advertisement][:pictures].present?
+            params[:advertisement][:pictures].each_with_index do |photo, index|
+              @advertisement.advertisement_pictures.create(
+                image: photo,
+                position: index + 1
+              )
+            end
+          end
+
+          redirect_to my_advertisements_path, notice: 'Объявление успешно создано!'
+          return
+        else
+          raise ActiveRecord::Rollback
+        end
+      else
+        raise ActiveRecord::Rollback
+      end
+    end
+
+    @categories = Advertisement::CATEGORIES
+    @cities = City.all
+    render :new, status: :unprocessable_entity
+  end
+
+  def edit
+    @categories = Advertisement::CATEGORIES
+    @cities = City.all
+
+    @category_data = {}
+    if @advertisement.category_detail
+      case @advertisement.category_id
+      when 1
+        @category_data = @advertisement.transport.attributes.slice(
+          'brand', 'model', 'year', 'mileage', 'fuel_type', 'transmission', 'engine_capacity'
+        )
+      when 2
+        @category_data = @advertisement.real_estate.attributes.slice(
+          'property_type', 'total_area', 'living_area', 'floor', 'total_floors', 'rooms_count'
+        )
+      when 3
+        @category_data = @advertisement.service.attributes.slice('name')
+      when 4
+        @category_data = @advertisement.thing.attributes.slice('name', 'item_type')
+      when 5
+        @category_data = @advertisement.job.attributes.slice('name')
+      end
+    end
+  end
+
+  def update
+    all_params = params.require(:advertisement).to_unsafe_h
+
+    ad_params = all_params.slice(
+      'title', 'description', 'price', 'status',
+      'category_id', 'city_id'
+    )
+
+    ActiveRecord::Base.transaction do
+      if @advertisement.update(ad_params)
+        category_params = extract_category_params(@advertisement.category_id, all_params)
+
+        if @advertisement.category_detail
+          @advertisement.category_detail.update(category_params)
+        else
+          @advertisement.build_category_detail(category_params)
+          @advertisement.category_detail.save
+        end
+
+        # Добавление новых фотографий
+        if params[:advertisement][:pictures].present?
+          last_position = @advertisement.advertisement_pictures.maximum(:position) || 0
+          params[:advertisement][:pictures].each_with_index do |photo, index|
+            @advertisement.advertisement_pictures.create(
+              image: photo,
+              position: last_position + index + 1
+            )
+          end
+        end
+
+        # Удаление отмеченных фотографий
+        if params[:advertisement][:delete_photos].present?
+          params[:advertisement][:delete_photos].each do |photo_id|
+            photo = @advertisement.advertisement_pictures.find_by(id: photo_id)
+            photo&.destroy
+          end
+        end
+
+        redirect_to my_advertisements_path, notice: "Объявление обновлено!"
+        return
+      else
+        raise ActiveRecord::Rollback
+      end
+    end
+
+    @categories = Advertisement::CATEGORIES
+    @cities = City.all
+    render :edit, status: :unprocessable_entity
+  end
+
+  def destroy
+    @advertisement.destroy
+    redirect_to advertisements_path, notice: 'Объявление удалено!'
+  end
+
+  def my
+    @advertisements = Advertisement.where(user_id: current_user.id).order(created_at: :desc)
+  end
+
+  private
+
+  def ad_params
+    params.require(:advertisement).permit(
+      :title, :description, :price, :status,
+      :category_id, :city_id
+    )
+  end
+
+  def extract_category_params(category_id, all_params)
+    case category_id
+    when 1
+      all_params.slice(
+        'brand', 'model', 'year', 'mileage', 'fuel_type',
+        'transmission', 'engine_capacity'
+      )
+    when 2
+      all_params.slice(
+        'property_type', 'total_area', 'living_area', 'floor',
+        'total_floors', 'rooms_count'
+      )
+    when 3
+      all_params.slice('name')
+    when 4
+      all_params.slice('name', 'item_type')
+    when 5
+      all_params.slice('name')
+    else
+      {}
+    end
+  end
+
+  def set_advertisement
+    @advertisement = Advertisement.find(params[:id])
+  end
+
+  # Методы фильтрации (остаются без изменений)
   def apply_category_filters(scope)
     case params[:category_id].to_i
     when 1
@@ -47,6 +212,7 @@ class AdvertisementsController < ApplicationController
     end
     scope
   end
+
   def apply_transport_filters(scope)
     scope = scope.joins(:transport).where("transports.brand ILIKE ?", "%#{params[:brand]}%") if params[:brand].present?
     scope = scope.joins(:transport).where("transports.model ILIKE ?", "%#{params[:model]}%") if params[:model].present?
@@ -107,156 +273,14 @@ class AdvertisementsController < ApplicationController
     scope = scope.joins(:job).where("jobs.name ILIKE ?", "%#{params[:job_name]}%") if params[:job_name].present?
     scope
   end
-  def create
-    all_params = params.require(:advertisement).to_unsafe_h
-
-    ad_params = all_params.slice(
-      'title', 'description', 'price', 'status',
-      'category_id', 'city_id'
-    )
-
-    @advertisement = Advertisement.new(ad_params)
-    @advertisement.user_id = current_user.id
-
-    if @advertisement.category_id.present?
-      category_params = extract_category_params(@advertisement.category_id, all_params)
-      @advertisement.build_category_detail(category_params)
-    end
-
-    ActiveRecord::Base.transaction do
-      if @advertisement.save
-        if @advertisement.category_detail&.save
-          redirect_to my_advertisements_path, notice: 'Объявление успешно создано!'
-          return
-        else
-          raise ActiveRecord::Rollback
-        end
-      else
-        raise ActiveRecord::Rollback
-      end
-    end
-
-    @categories = Advertisement::CATEGORIES
-    @cities = City.all
-    render :new, status: :unprocessable_entity
-  end
-
-  def show
-    @advertisement = Advertisement.find(params[:id])
-  rescue ActiveRecord::RecordNotFound
-    redirect_to advertisements_path, alert: "Объявление не найдено"
-  end
-
-  def edit
-    @categories = Advertisement::CATEGORIES
-    @cities = City.all
-
-    @category_data = {}
-    if @advertisement.category_detail
-      case @advertisement.category_id
-      when 1
-        @category_data = @advertisement.transport.attributes.slice(
-          'brand', 'model', 'year', 'mileage', 'fuel_type', 'transmission', 'engine_capacity'
-        )
-      when 2
-        @category_data = @advertisement.real_estate.attributes.slice(
-          'property_type', 'total_area', 'living_area', 'floor', 'total_floors', 'rooms_count'
-        )
-      when 3
-        @category_data = @advertisement.service.attributes.slice('name')
-      when 4
-        @category_data = @advertisement.thing.attributes.slice('name', 'item_type')
-      when 5
-        @category_data = @advertisement.job.attributes.slice('name')
-      end
-    end
-  end
-
-  def update
-    all_params = params.require(:advertisement).to_unsafe_h
-
-    ad_params = all_params.slice(
-      'title', 'description', 'price', 'status',
-      'category_id', 'city_id'
-    )
-
-    ActiveRecord::Base.transaction do
-      if @advertisement.update(ad_params)
-        category_params = extract_category_params(@advertisement.category_id, all_params)
-
-        if @advertisement.category_detail
-          @advertisement.category_detail.update(category_params)
-        else
-          @advertisement.build_category_detail(category_params)
-          @advertisement.category_detail.save
-        end
-
-        redirect_to my_advertisements_path, notice: "Объявление обновлено!"
-        return
-      else
-        raise ActiveRecord::Rollback
-      end
-    end
-
-    @categories = Advertisement::CATEGORIES
-    @cities = City.all
-    render :edit, status: :unprocessable_entity
-  end
-
-  def destroy
-    @advertisement.destroy
-    redirect_to advertisements_path, notice: 'Объявление удалено!'
-  end
-
-  def my
-    @advertisements = Advertisement.where(user_id: current_user.id).order(created_at: :desc)
-  end
-
-  private
-
-  def ad_params
-    params.require(:advertisement).permit(
-      :title, :description, :price, :status,
-      :category_id, :city_id
-    )
-  end
-
-  def extract_category_params(category_id, all_params)
-    case category_id
-    when 1
-      all_params.slice(
-        'brand', 'model', 'year', 'mileage', 'fuel_type',
-        'transmission', 'engine_capacity'
-      )
-    when 2
-      params = all_params.slice(
-        'property_type', 'total_area', 'living_area', 'floor',
-        'total_floors', 'rooms_count'
-      )
-      params
-    when 3
-      all_params.slice('name')
-    when 4
-      all_params.slice('name', 'item_type')
-    when 5
-      all_params.slice('name')
-    else
-      {}
-    end
-    end
-
-
-  public
 
   def category_filters
     @category_id = params[:category_id]
     render template: "/filters/#{filter_template_name}", layout: false
   end
 
-  def set_advertisement
-    @advertisement = Advertisement.find(params[:id])
-  end
   private
+
   def filter_template_name
     case @category_id
     when "1" then "transport_filters"
