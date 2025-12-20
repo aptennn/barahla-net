@@ -32,7 +32,7 @@ class AdvertisementsController < ApplicationController
     ActiveRecord::Base.transaction do
       if @advertisement.save
         if @advertisement.category_detail&.save
-          redirect_to advertisement_path(@advertisement), notice: 'Объявление успешно создано!'
+          redirect_to my_advertisements_path, notice: 'Объявление успешно создано!'
           return
         else
           raise ActiveRecord::Rollback
@@ -94,7 +94,7 @@ class AdvertisementsController < ApplicationController
           @advertisement.category_detail.save
         end
 
-        redirect_to advertisement_path(@advertisement), notice: "Объявление обновлено!"
+        redirect_to my_advertisements_path, notice: "Объявление обновлено!"
         return
       else
         raise ActiveRecord::Rollback
