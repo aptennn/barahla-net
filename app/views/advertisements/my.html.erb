@@ -1,23 +1,7 @@
 <div class="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50">
   <!-- Навигация -->
-  <nav class="bg-white shadow-lg">
-    <div class="w-full px-4 sm:px-6 lg:px-8">
-      <div class="flex justify-between h-16">
-        <div class="flex items-center">
-          <h1 class="text-xl font-bold text-gray-900">Мои объявления</h1>
-        </div>
-
-        <div class="flex items-center space-x-4">
-          <span class="text-gray-700">Привет, <%= current_user.username %>!</span>
-          <%= link_to "Главная", root_path, class: "text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium" %>
-          <%= link_to "Личный кабинет", profile_path, class: "text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium" %>
-          <%= button_to "Выйти", logout_path, method: :delete,
-                        class: "bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 text-sm font-medium" %>
-        </div>
-      </div>
-    </div>
-  </nav>
-
+  <% provide :navbar_title, "Мои объявления" %>
+  <%= render "layouts/navbar" %>
   <!-- Контент -->
   <div class="w-full py-12 px-4 sm:px-6 lg:px-8">
     <div class="max-w-7xl mx-auto">
@@ -35,62 +19,10 @@
 
       <!-- Список объявлений -->
       <% if @advertisements.any? %>
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          <% @advertisements.each do |ad| %>
-            <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow">
-              <div class="p-6">
-                <!-- Заголовок и статус -->
-                <div class="flex justify-between items-start mb-4">
-                  <h3 class="text-lg font-semibold text-gray-900"><%= ad.title %></h3>
-                  <span class="px-2 py-1 text-xs font-medium rounded-full
-                    <%= ad.status == 'active' ? 'bg-green-100 text-green-800' :
-                                                         ad.status == 'sold' ? 'bg-red-100 text-red-800' :
-                                                           'bg-yellow-100 text-yellow-800' %>">
-                    <%= I18n.t("advertisements.status.#{ad.status}", default: ad.status) %>
-                  </span>
-                </div>
-
-                <!-- Описание -->
-                <p class="text-gray-600 mb-4 line-clamp-2"><%= ad.description.truncate(100) %></p>
-
-                <!-- Информация -->
-                <div class="space-y-2 mb-4">
-                  <div class="flex justify-between">
-                    <span class="text-sm text-gray-500">Категория:</span>
-                    <span class="text-sm font-medium text-gray-900">
-                      <%= Advertisement::CATEGORIES[ad.category_id] %>
-                    </span>
-                  </div>
-                  <div class="flex justify-between">
-                    <span class="text-sm text-gray-500">Цена:</span>
-                    <span class="text-sm font-bold text-blue-600">
-                      <%= number_to_currency(ad.price, unit: "₽", delimiter: " ", format: "%n %u") %>
-                    </span>
-                  </div>
-                  <div class="flex justify-between">
-                    <span class="text-sm text-gray-500">ID объявления:</span>
-                    <span class="text-sm text-gray-900 font-mono">
-                      #<%= ad.ad_id %>
-                    </span>
-                  </div>
-                  <div class="flex justify-between">
-                    <span class="text-sm text-gray-500">Дата создания:</span>
-                    <span class="text-sm text-gray-900">
-                      <%= ad.created_at.strftime("%d.%m.%Y") %>
-                    </span>
-                  </div>
-                </div>
-
-                <div class="flex space-x-2">
-                  <%= link_to "Просмотр", advertisement_path(ad),
-                              class: "flex-1 text-center bg-blue-50 text-blue-600 hover:bg-blue-100 px-3 py-2 rounded-lg text-sm font-medium" %>
-                  <%= link_to "Редактировать", edit_advertisement_path(ad),
-                              class: "flex-1 text-center bg-gray-100 text-gray-700 hover:bg-gray-200 px-3 py-2 rounded-lg text-sm font-medium" %>
-                </div>
-              </div>
-            </div>
-          <% end %>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6 lg:gap-7">
+          <%= render partial: "shared/advertisements/advertisement_card", collection: @advertisements, as: :advertisement %>
         </div>
+
 
       <% else %>
         <div class="text-center py-16 bg-white rounded-xl shadow">

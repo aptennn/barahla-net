@@ -147,6 +147,10 @@ class AdvertisementsController < ApplicationController
       {}
     end
   end
+  def category_filters
+    @category_id = params[:category_id]
+    render template: "advertisements/filters/#{filter_template_name}", layout: false
+  end
 
   def set_advertisement
     @advertisement = Advertisement.find(params[:id])

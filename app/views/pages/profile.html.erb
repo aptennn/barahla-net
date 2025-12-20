@@ -1,22 +1,7 @@
 <div class="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50">
   <!-- Навигация на всю ширину -->
-  <nav class="bg-white shadow-lg">
-    <div class="w-full px-4 sm:px-6 lg:px-8">
-      <div class="flex justify-between h-16">
-        <div class="flex items-center">
-          <h1 class="text-xl font-bold text-gray-900">Личный кабинет</h1>
-        </div>
-
-        <div class="flex items-center space-x-4">
-          <span class="text-gray-700">Привет, <%= current_user.username %>!</span>
-          <%= link_to "Главная", root_path, class: "text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium" %>
-          <%= button_to "Выйти", logout_path, method: :delete,
-                        class: "bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 text-sm font-medium" %>
-        </div>
-      </div>
-    </div>
-  </nav>
-
+  <% provide :navbar_title, "Мой профиль" %>
+  <%= render "layouts/navbar" %>
   <!-- Контент на всю ширину -->
   <div class="w-full py-12 px-4 sm:px-6 lg:px-8">
     <div class="bg-white shadow-lg rounded-2xl p-8">

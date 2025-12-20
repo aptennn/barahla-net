@@ -1,0 +1,25 @@
+<!-- app/views/shared/_navbar.html.erb -->
+<nav class="bg-white shadow-lg">
+  <div class="w-full px-4 sm:px-6 lg:px-8">
+    <div class="flex justify-between h-16">
+      <div class="flex items-center">
+        <h1 class="text-xl font-bold text-gray-900">
+          <%= yield :navbar_title || "Барахла.НЕТ!" %>
+        </h1>
+      </div>
+
+      <div class="flex items-center space-x-4">
+        <% if logged_in? %>
+          <span class="text-gray-700">Привет, <%= current_user.username %>!</span>
+          <%= link_to "Главная", root_path, class: "text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium" %>
+          <%= link_to "Личный кабинет", profile_path, class: "text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium" %>
+          <%= button_to "Выйти", logout_path, method: :delete,
+                        class: "bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 text-sm font-medium" %>
+        <% else %>
+          <%= link_to "Войти", login_path, class: "text-blue-600 hover:text-blue-700 px-3 py-2 rounded-md text-sm font-medium" %>
+          <%= link_to "Регистрация", register_path, class: "bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 text-sm font-medium" %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</nav>
