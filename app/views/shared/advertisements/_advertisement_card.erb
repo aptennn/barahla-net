@@ -1,6 +1,43 @@
 <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow">
+  <!-- Контейнер для фото/заглушки -->
+  <div class="relative h-48 bg-gray-100">
+    <%
+      valid_pictures = advertisement.advertisement_pictures.select { |pic| pic.image.attached? }
+      first_picture = valid_pictures.sort_by(&:position).first
+    %>
+
+    <% if first_picture %>
+      <%= image_tag rails_blob_path(first_picture.image),
+                    class: "w-full h-full object-cover",
+                    alt: advertisement.title %>
+    <% elsif advertisement.advertisement_pictures.any? %>
+      <div class="flex items-center justify-center h-full bg-gray-200">
+        <div class="text-center">
+          <svg class="w-12 h-12 mx-auto text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+          </svg>
+          <p class="mt-2 text-sm text-gray-500">Ошибка загрузки</p>
+        </div>
+      </div>
+    <% else %>
+      <div class="flex items-center justify-center h-full bg-gray-200">
+        <div class="text-center">
+          <svg class="w-12 h-12 mx-auto text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+          </svg>
+          <p class="mt-2 text-sm text-gray-500">Нет фото</p>
+        </div>
+      </div>
+    <% end %>
+
+    <% if valid_pictures.count > 1 %>
+      <div class="absolute top-2 right-2 bg-black bg-opacity-60 text-white text-xs px-2 py-1 rounded-full">
+        +<%= valid_pictures.count - 1 %>
+      </div>
+    <% end %>
+  </div>
+
   <div class="p-6">
-    <!-- Заголовок и статус -->
     <div class="flex justify-between items-start mb-4">
       <h3 class="text-lg font-semibold text-gray-900"><%= advertisement.title %></h3>
       <span class="px-2 py-1 text-xs font-medium rounded-full
@@ -41,17 +78,18 @@
         </span>
       </div>
     </div>
+
+    <!-- Кнопки -->
     <% if advertisement_owner?(advertisement) %>
-    <div class="flex space-x-2">
-      <%= link_to "Просмотр", advertisement_path(advertisement),
-                  class: "flex-1 text-center bg-blue-50 text-blue-600 hover:bg-blue-100 px-3 py-2 rounded-lg text-sm font-medium" %>
-      <%= link_to "Редактировать", edit_advertisement_path(advertisement),
-                  class: "flex-1 text-center bg-gray-100 text-gray-700 hover:bg-gray-200 px-3 py-2 rounded-lg text-sm font-medium" %>
-    </div>
-      <%else %>
+      <div class="flex space-x-2">
+        <%= link_to "Просмотр", advertisement_path(advertisement),
+                    class: "flex-1 text-center bg-blue-50 text-blue-600 hover:bg-blue-100 px-3 py-2 rounded-lg text-sm font-medium" %>
+        <%= link_to "Редактировать", edit_advertisement_path(advertisement),
+                    class: "flex-1 text-center bg-gray-100 text-gray-700 hover:bg-gray-200 px-3 py-2 rounded-lg text-sm font-medium" %>
+      </div>
+    <% else %>
       <%= link_to "Просмотр", advertisement_path(advertisement),
                   class: "flex-1 text-center bg-gray-100 text-gray-700 hover:bg-gray-200 px-3 py-2 rounded-lg text-sm font-medium flex items-center justify-center" %>
-
     <% end %>
   </div>
 </div>

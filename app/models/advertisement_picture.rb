@@ -3,6 +3,7 @@ class AdvertisementPicture < ApplicationRecord
   has_one_attached :image
 
   validate :validate_image
+  validate :image_must_be_attached
 
   before_create :set_default_position
 
@@ -35,5 +36,9 @@ class AdvertisementPicture < ApplicationRecord
       last_position = AdvertisementPicture.where(ad_id: ad_id).maximum(:position) || 0
       self.position = last_position + 1
     end
+  end
+
+  def image_must_be_attached
+    errors.add(:image, 'must be attached') unless image.attached?
   end
 end
