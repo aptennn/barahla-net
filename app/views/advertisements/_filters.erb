@@ -6,34 +6,37 @@
 
 <div class="bg-white rounded-xl shadow-md p-5 mb-6">
   <%= form_with url: advertisements_path, method: :get, local: true, id: "filters-form", class: "space-y-6" do |f| %>
-    <!-- 🔷 КОЛОНКИ ВЕРТИКАЛЬНО -->
-    <div class="space-y-6">
-      <!-- 🔹 Основные фильтры -->
-      <div>
-        <h5 class="font-medium text-gray-900 mb-3 pb-2 border-b">Основное</h5>
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          <!-- Категория -->
-          <div>
-            <%= f.label :category_id, "Категория", class: "block text-sm font-medium text-gray-700 mb-1" %>
+    <!-- 🔷 ОСНОВНЫЕ ФИЛЬТРЫ -->
+    <div>
+      <h5 class="font-medium text-gray-900 mb-3 pb-2 border-b">Основное</h5>
+      <div class="space-y-4">
+        <!-- Категория -->
+        <div class="w-full">
+          <%= f.label :category_id, "Категория", class: "block text-sm font-medium text-gray-700 mb-1" %>
+          <div class="w-full">
             <%= f.select :category_id,
                          options_for_select([["Любая", ""]] + (Advertisement::CATEGORIES || {}).map { |id, name| [name, id] }, params[:category_id]),
                          {},
                          { class: "w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500",
                            id: "category-select" } %>
           </div>
+        </div>
 
-          <!-- Город -->
-          <div>
-            <%= f.label :city_id, "Город", class: "block text-sm font-medium text-gray-700 mb-1" %>
+        <!-- Город -->
+        <div class="w-full">
+          <%= f.label :city_id, "Город", class: "block text-sm font-medium text-gray-700 mb-1" %>
+          <div class="w-full">
             <%= f.select :city_id,
                          options_for_select([["Любой", ""]] + (City.all.map { |c| [c.name, c.id] }), params[:city_id]),
                          {},
                          class: "w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" %>
           </div>
+        </div>
 
-          <!-- Статус -->
-          <div>
-            <%= f.label :status, "Статус", class: "block text-sm font-medium text-gray-700 mb-1" %>
+        <!-- Статус -->
+        <div class="w-full">
+          <%= f.label :status, "Статус", class: "block text-sm font-medium text-gray-700 mb-1" %>
+          <div class="w-full">
             <%= f.select :status,
                          options_for_select([
                                               ["Любой", ""],
@@ -43,81 +46,86 @@
                          {},
                          class: "w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" %>
           </div>
-
-          <!-- Цена -->
-          <div>
-            <div class="block text-sm font-medium text-gray-700 mb-1">Цена</div>
-            <div class="grid grid-cols-2 gap-2">
-              <div>
-                <%= f.label :min_price, "от", class: "block text-xs text-gray-500 mb-1" %>
-                <%= f.number_field :min_price,
-                                   value: params[:min_price],
-                                   min: 0,
-                                   placeholder: "0",
-                                   class: "w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" %>
-              </div>
-              <div>
-                <%= f.label :max_price, "до", class: "block text-xs text-gray-500 mb-1" %>
-                <%= f.number_field :max_price,
-                                   value: params[:max_price],
-                                   min: 0,
-                                   placeholder: "100 000",
-                                   class: "w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" %>
-              </div>
-            </div>
-          </div>
         </div>
-      </div>
 
-      <!-- 🔹 Категорийные фильтры -->
-      <div>
-        <h5 class="font-medium text-gray-900 mb-3 pb-2 border-b" id="category-filters-title">
-          <%= category_filter_title(params[:category_id]) %>
-        </h5>
-
-        <div id="category-filters">
-          <!-- Все фильтры рендерятся сразу, но скрыты -->
-
-          <!-- Фильтр по умолчанию (если категория не выбрана) -->
-          <div id="filters-default" class="<%= 'hidden' if params[:category_id].present? %>">
-            <div class="text-gray-500 text-sm py-8 text-center">
-              Выберите категорию, чтобы увидеть фильтры.
+        <!-- Цена -->
+        <div class="w-full">
+          <div class="block text-sm font-medium text-gray-700 mb-1">Цена</div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div class="w-full">
+              <%= f.label :min_price, "Минимальная цена", class: "block text-sm text-gray-700 mb-1" %>
+              <%= f.number_field :min_price,
+                                 value: params[:min_price],
+                                 min: 0,
+                                 placeholder: "0",
+                                 class: "w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" %>
             </div>
-          </div>
-
-          <!-- Транспорт (категория 1) -->
-          <div id="filters-category-1" class="category-filters <%= 'hidden' unless params[:category_id] == '1' %>">
-            <%= render partial: "filters/transport_filters", locals: { f: f } %>
-          </div>
-
-          <!-- Недвижимость (категория 2) -->
-          <div id="filters-category-2" class="category-filters <%= 'hidden' unless params[:category_id] == '2' %>">
-            <%= render partial: "filters/real_estate_filters", locals: { f: f } %>
-          </div>
-
-          <!-- Услуги (категория 3) -->
-          <div id="filters-category-3" class="category-filters <%= 'hidden' unless params[:category_id] == '3' %>">
-            <%= render partial: "filters/service_filters", locals: { f: f } %>
-          </div>
-
-          <!-- Вещи (категория 4) -->
-          <div id="filters-category-4" class="category-filters <%= 'hidden' unless params[:category_id] == '4' %>">
-            <%= render partial: "filters/thing_filters", locals: { f: f } %>
-          </div>
-
-          <!-- Работа (категория 5) -->
-          <div id="filters-category-5" class="category-filters <%= 'hidden' unless params[:category_id] == '5' %>">
-            <%= render partial: "filters/job_filters", locals: { f: f } %>
+            <div class="w-full">
+              <%= f.label :max_price, "Максимальная цена", class: "block text-sm text-gray-700 mb-1" %>
+              <%= f.number_field :max_price,
+                                 value: params[:max_price],
+                                 min: 0,
+                                 placeholder: "100 000",
+                                 class: "w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" %>
+            </div>
           </div>
         </div>
       </div>
     </div>
 
-    <div class="pt-4 flex flex-col gap-3">
-      <%= f.submit "Применить фильтры",
-                   class: "px-5 py-2.5 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition" %>
-      <%= link_to "Сбросить", advertisements_path,
-                  class: "px-5 py-2.5 text-gray-700 bg-gray-100 hover:bg-gray-200 font-medium rounded-lg text-center" %>
+    <!-- 🔷 КАТЕГОРИЙНЫЕ ФИЛЬТРЫ -->
+    <div>
+      <h5 class="font-medium text-gray-900 mb-3 pb-2 border-b" id="category-filters-title">
+        <%= category_filter_title(params[:category_id]) %>
+      </h5>
+
+      <div id="category-filters" class="space-y-4">
+        <!-- Фильтр по умолчанию (если категория не выбрана) -->
+        <div id="filters-default" class="<%= 'hidden' if params[:category_id].present? %>">
+          <div class="text-gray-500 text-sm py-8 text-center">
+            Выберите категорию, чтобы увидеть фильтры.
+          </div>
+        </div>
+
+        <!-- Транспорт (категория 1) -->
+        <div id="filters-category-1" class="category-filters <%= 'hidden' unless params[:category_id] == '1' %>">
+          <%= render partial: "filters/transport_filters", locals: { f: f } %>
+        </div>
+
+        <!-- Недвижимость (категория 2) -->
+        <div id="filters-category-2" class="category-filters <%= 'hidden' unless params[:category_id] == '2' %>">
+          <%= render partial: "filters/real_estate_filters", locals: { f: f } %>
+        </div>
+
+        <!-- Услуги (категория 3) -->
+        <div id="filters-category-3" class="category-filters <%= 'hidden' unless params[:category_id] == '3' %>">
+          <%= render partial: "filters/service_filters", locals: { f: f } %>
+        </div>
+
+        <!-- Вещи (категория 4) -->
+        <div id="filters-category-4" class="category-filters <%= 'hidden' unless params[:category_id] == '4' %>">
+          <%= render partial: "filters/thing_filters", locals: { f: f } %>
+        </div>
+
+        <!-- Работа (категория 5) -->
+        <div id="filters-category-5" class="category-filters <%= 'hidden' unless params[:category_id] == '5' %>">
+          <%= render partial: "filters/job_filters", locals: { f: f } %>
+        </div>
+      </div>
+    </div>
+
+    <!-- 🔷 КНОПКИ -->
+    <div class="pt-4">
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-3">
+        <div class="w-full sm:w-auto">
+          <%= f.submit "Применить",
+                       class: "px-5 py-2.5 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition w-full" %>
+        </div>
+        <div class="w-full sm:w-auto">
+          <%= link_to "Сбросить", advertisements_path,
+                      class: "px-5 py-2.5 text-gray-700 bg-gray-100 hover:bg-gray-200 font-medium rounded-lg text-center w-full" %>
+        </div>
+      </div>
     </div>
   <% end %>
 </div>
@@ -128,16 +136,13 @@
         const categoryFiltersTitle = document.getElementById('category-filters-title');
 
         if (categorySelect) {
-            // Функция для обновления отображения фильтров
             function updateCategoryFilters() {
                 const selectedCategory = categorySelect.value;
 
-                // Скрываем все фильтры категорий
                 document.querySelectorAll('.category-filters').forEach(el => {
                     el.classList.add('hidden');
                 });
 
-                // Показываем/скрываем фильтр по умолчанию
                 const defaultFilters = document.getElementById('filters-default');
                 if (selectedCategory) {
                     defaultFilters.classList.add('hidden');
@@ -145,7 +150,6 @@
                     defaultFilters.classList.remove('hidden');
                 }
 
-                // Показываем соответствующие фильтры категории
                 if (selectedCategory) {
                     const targetFilters = document.getElementById(`filters-category-${selectedCategory}`);
                     if (targetFilters) {
@@ -153,11 +157,9 @@
                     }
                 }
 
-                // Обновляем заголовок
                 updateCategoryTitle(selectedCategory);
             }
 
-            // Функция для обновления заголовка
             function updateCategoryTitle(categoryId) {
                 const titles = {
                     '1': 'Транспорт',
@@ -172,10 +174,7 @@
                 }
             }
 
-            // Обработчик изменения категории
             categorySelect.addEventListener('change', updateCategoryFilters);
-
-            // Инициализация при загрузке
             updateCategoryFilters();
         }
     });
