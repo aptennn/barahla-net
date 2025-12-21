@@ -1,3 +1,5 @@
+<% provide :navbar_title, "БАРАХЛА.НЕТ!" %>
+<%= render "layouts/navbar" %>
 <div class="min-h-screen bg-gradient-to-br from-blue-50 to-gray-100 py-12 px-4 sm:px-6 lg:px-8">
 
   <div class="max-w-4xl mx-auto">
@@ -119,6 +121,29 @@
             </div>
           </div>
         </div>
+
+        <!-- Чаты объявления -->
+        <% if current_user == @advertisement.user && @advertisement.chats.any? %>
+          <div class="border-t pt-6">
+            <h2 class="text-xl font-semibold text-gray-800 mb-4">Чаты по этому объявлению</h2>
+            <div class="space-y-3">
+              <% @advertisement.chats.includes(:user).each do |chat| %>
+                <div class="bg-gray-50 p-4 rounded-lg">
+                  <div class="flex justify-between items-center">
+                    <div>
+                      <p class="font-medium">С <%= chat.user.email %></p>
+                      <p class="text-sm text-gray-500">
+                        <%= l(chat.created_time, format: :short) %>
+                      </p>
+                    </div>
+                    <%= link_to "Перейти к чату", chat_path(chat),
+                                class: "px-4 py-2 bg-blue-600 text-white rounded-md text-sm hover:bg-blue-700 transition-colors" %>
+                  </div>
+                </div>
+              <% end %>
+            </div>
+          </div>
+        <% end %>
 
         <!-- Кнопки действий -->
         <div class="mt-8 pt-6 border-t flex flex-wrap gap-3">
