@@ -30,6 +30,7 @@ Rails.application.routes.draw do
 
   # Профиль (только для авторизованных)
   get 'profile', to: 'pages#profile'
+  get 'seller/:id', to: 'pages#seller_profile', as: 'seller_profile'
 
   get '/advertisements/category_filters'
   # Работа с объявлениями
