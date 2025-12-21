@@ -23,6 +23,41 @@
           </div>
         </div>
 
+        <div class="mb-6">
+          <h2 class="text-xl font-semibold text-gray-800 mb-4">Отзывы</h2>
+          <% if @user.received_reviews.any? %>
+            <div class="space-y-4">
+              <% @user.received_reviews.each do |review| %>
+                <div class="border rounded-lg p-4">
+                  <div class="flex items-center mb-2">
+                    <% (1..5).each do |i| %>
+                      <% if i <= review.rating %>
+                        <span class="text-yellow-400 text-xl">★</span>
+                      <% else %>
+                        <span class="text-gray-300 text-xl">★</span>
+                      <% end %>
+                    <% end %>
+                    <p class="text-sm text-gray-500 mt-2">
+                      <%= review.created_at.strftime("%d.%m.%Y") %>
+                    </p>
+                  </div>
+                  <p class="text-gray-700"><%= review.text %></p>
+                </div>
+              <% end %>
+            </div>
+          <% else %>
+            <p class="text-gray-500">Пока нет отзывов</p>
+          <% end %>
+        </div>
+
+        <div class="mb-6">
+          <button onclick="document.getElementById('review-modal').classList.remove('hidden')"
+                  class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 transition-colors">
+            Оставить отзыв
+          </button>
+        </div>
+        <%= render "pages/review_form" %>
+
         <div class="border-t pt-6">
           <h2 class="text-xl font-semibold text-gray-800 mb-4">Другие объявления продавца</h2>
           <% if @advertisements.any? %>
