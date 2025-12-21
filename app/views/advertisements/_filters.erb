@@ -1,8 +1,4 @@
 <!-- app/views/advertisements/_filters.erb -->
-<div class="flex justify-between items-center mb-4 pb-2 border-b">
-  <h4 class="font-medium text-gray-900">Фильтры</h4>
-  <%= link_to "Сбросить", advertisements_path, class: "text-sm text-blue-600 hover:text-blue-700" %>
-</div>
 
 <div class="bg-white rounded-xl shadow-md p-5 mb-6">
   <%= form_with url: advertisements_path, method: :get, local: true, id: "filters-form", class: "space-y-6" do |f| %>
