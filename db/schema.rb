@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_12_20_171228) do
+ActiveRecord::Schema[8.0].define(version: 2025_12_21_170000) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -61,6 +61,18 @@ ActiveRecord::Schema[8.0].define(version: 2025_12_20_171228) do
     t.index ["user_id"], name: "index_advertisements_on_user_id"
   end
 
+  create_table "chats", force: :cascade do |t|
+    t.integer "advertisement_id", null: false
+    t.integer "ad_owner_id", null: false
+    t.integer "user_id", null: false
+    t.datetime "created_time", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["ad_owner_id"], name: "index_chats_on_ad_owner_id"
+    t.index ["advertisement_id"], name: "index_chats_on_advertisement_id"
+    t.index ["user_id"], name: "index_chats_on_user_id"
+  end
+
   create_table "cities", primary_key: "city_id", force: :cascade do |t|
     t.string "name", null: false
     t.string "region", null: false
@@ -75,6 +87,18 @@ ActiveRecord::Schema[8.0].define(version: 2025_12_20_171228) do
     t.datetime "updated_at", null: false
     t.integer "advertisement_id", null: false
     t.index ["advertisement_id"], name: "index_jobs_on_advertisement_id"
+  end
+
+  create_table "messages", force: :cascade do |t|
+    t.integer "chat_id", null: false
+    t.integer "sender_id", null: false
+    t.integer "receiver_id", null: false
+    t.text "text", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["chat_id"], name: "index_messages_on_chat_id"
+    t.index ["receiver_id"], name: "index_messages_on_receiver_id"
+    t.index ["sender_id"], name: "index_messages_on_sender_id"
   end
 
   create_table "real_estates", force: :cascade do |t|
@@ -140,7 +164,13 @@ ActiveRecord::Schema[8.0].define(version: 2025_12_20_171228) do
   add_foreign_key "advertisement_pictures", "advertisements", column: "ad_id", primary_key: "ad_id"
   add_foreign_key "advertisements", "cities", primary_key: "city_id"
   add_foreign_key "advertisements", "users"
+  add_foreign_key "chats", "advertisements", primary_key: "ad_id"
+  add_foreign_key "chats", "users"
+  add_foreign_key "chats", "users", column: "ad_owner_id"
   add_foreign_key "jobs", "advertisements", primary_key: "ad_id"
+  add_foreign_key "messages", "chats"
+  add_foreign_key "messages", "users", column: "receiver_id"
+  add_foreign_key "messages", "users", column: "sender_id"
   add_foreign_key "real_estates", "advertisements", primary_key: "ad_id"
   add_foreign_key "services", "advertisements", primary_key: "ad_id"
   add_foreign_key "things", "advertisements", primary_key: "ad_id"

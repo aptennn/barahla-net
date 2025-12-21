@@ -135,7 +135,7 @@
             <%= link_to "Назад к списку", advertisements_path,
                         class: "px-6 py-3 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 transition-colors" %>
           <% else %>
-            <%= link_to "Написать продавцу", "#",
+            <%= link_to "Написать продавцу", new_chat_path(advertisement_id: @advertisement.ad_id, ad_owner_id: @advertisement.user_id),
                         class: "px-6 py-3 bg-green-600 text-white rounded-md text-sm font-medium hover:bg-green-700 transition-colors" %>
             <%= link_to "Назад к объявлениям", advertisements_path,
                         class: "px-6 py-3 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 transition-colors" %>

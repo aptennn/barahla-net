@@ -20,7 +20,31 @@
       <!-- Список объявлений -->
       <% if @advertisements.any? %>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6 lg:gap-7">
-          <%= render partial: "shared/advertisements/advertisement_card", collection: @advertisements, as: :advertisement %>
+          <% @advertisements.each do |ad| %>
+            <div class="space-y-4">
+              <%= render partial: "shared/advertisements/advertisement_card", locals: { advertisement: ad } %>
+              
+              <% if ad.chats.any? %>
+                <div class="bg-white rounded-lg shadow p-4">
+                  <h3 class="font-medium text-gray-900 mb-2">Чаты по этому объявлению:</h3>
+                  <ul class="space-y-2">
+                    <% ad.chats.each do |chat| %>
+                      <li>
+                        <%= link_to chat_path(chat), class: "flex items-center space-x-2 hover:bg-gray-50 p-2 rounded" do %>
+                          <span class="text-sm text-gray-600">
+                            <%= chat.user.email %>
+                          </span>
+                          <span class="text-xs text-gray-500">
+                            (<%= l(chat.created_time, format: :short) %>)
+                          </span>
+                        <% end %>
+                      </li>
+                    <% end %>
+                  </ul>
+                </div>
+              <% end %>
+            </div>
+          <% end %>
         </div>
 
 

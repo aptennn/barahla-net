@@ -1,0 +1,51 @@
+<div class="min-h-screen bg-gradient-to-br from-blue-50 to-gray-100 py-12 px-4 sm:px-6 lg:px-8">
+  <div class="max-w-4xl mx-auto">
+    <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+      <div class="p-4 border-b">
+        <h1 class="text-2xl font-bold text-gray-800">Чат по объявлению: <%= @chat.advertisement.title %></h1>
+        <p class="text-gray-600">Создан: <%= l(@chat.created_time, format: :short) %></p>
+      </div>
+
+      <div class="p-6 md:p-8">
+        <div class="mb-6 border-b pb-4">
+          <h2 class="text-xl font-semibold text-gray-800 mb-2">Участники:</h2>
+          <div class="flex items-center space-x-4">
+            <div>
+              <p class="text-gray-700"><span class="font-medium">Продавец:</span> <%= @chat.ad_owner.email %></p>
+            </div>
+            <div>
+              <p class="text-gray-700"><span class="font-medium">Покупатель:</span> <%= @chat.user.email %></p>
+            </div>
+          </div>
+        </div>
+
+        <div class="mb-8">
+          <h2 class="text-xl font-semibold text-gray-800 mb-4">Сообщения</h2>
+          <div class="space-y-4">
+            <% @messages.each do |message| %>
+              <div class="<%= message.sender == current_user ? 'bg-blue-100' : 'bg-gray-100' %> p-4 rounded-lg">
+                <div class="flex justify-between items-start">
+                  <p class="font-medium text-gray-800"><%= message.sender.email %></p>
+                  <p class="text-sm text-gray-500"><%= l(message.created_at, format: :short) %></p>
+                </div>
+                <p class="mt-2 text-gray-700"><%= message.text %></p>
+              </div>
+            <% end %>
+          </div>
+        </div>
+
+        <div class="mt-8 pt-6 border-t">
+          <h2 class="text-xl font-semibold text-gray-800 mb-4">Отправить сообщение</h2>
+          <%= form_with model: [@chat, @message], local: true do |f| %>
+            <div class="mb-4">
+              <%= f.text_area :text, class: "w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500", rows: 3, placeholder: "Введите ваше сообщение..." %>
+            </div>
+            <div class="flex justify-end">
+              <%= f.submit "Отправить", class: "px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

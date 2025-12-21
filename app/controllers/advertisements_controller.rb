@@ -157,7 +157,9 @@ class AdvertisementsController < ApplicationController
   end
 
   def my
-    @advertisements = Advertisement.where(user_id: current_user.id).order(created_at: :desc)
+    @advertisements = Advertisement.where(user_id: current_user.id)
+                          .includes(:chats)
+                          .order(created_at: :desc)
   end
 
   private

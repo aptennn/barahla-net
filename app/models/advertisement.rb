@@ -4,6 +4,8 @@ class Advertisement < ApplicationRecord
   belongs_to :user, foreign_key: 'user_id', optional: true
   belongs_to :city, foreign_key: 'city_id'
 
+  has_many :chats, foreign_key: 'advertisement_id', dependent: :destroy
+
   ## Одна из записей будет заполнена в зависимости от значения category_id
   has_one :transport, dependent: :destroy
   has_one :real_estate, dependent: :destroy
@@ -39,7 +41,6 @@ class Advertisement < ApplicationRecord
   ## Возможность получать только активные объявления
   scope :active, -> { where(status: 'active') }
   scope :recent, -> { order(created_at: :desc) }
-
 
   ## Определяем тип объявления
   def ad_type

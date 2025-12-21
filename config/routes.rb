@@ -39,4 +39,9 @@ Rails.application.routes.draw do
     end
   end
 
+  # Чат
+  resources :chats, only: [:index, :show, :new, :create, :destroy] do
+    resources :messages, only: [:create]
+  end
+
 end

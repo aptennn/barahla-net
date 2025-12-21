@@ -1,0 +1,32 @@
+<div class="min-h-screen bg-gradient-to-br from-blue-50 to-gray-100 py-12 px-4 sm:px-6 lg:px-8">
+  <div class="max-w-4xl mx-auto">
+    <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+      <div class="p-4 border-b">
+        <h1 class="text-2xl font-bold text-gray-800">Новый чат</h1>
+      </div>
+
+      <div class="p-6 md:p-8">
+        <div class="mb-6">
+          <h2 class="text-xl font-semibold text-gray-800 mb-2">Объявление:</h2>
+          <p class="text-gray-700"><%= @advertisement.title %></p>
+        </div>
+
+        <div class="mb-6">
+          <h2 class="text-xl font-semibold text-gray-800 mb-2">Продавец:</h2>
+          <p class="text-gray-700"><%= @advertisement.user.email %></p>
+        </div>
+
+        <%= form_with model: @chat, url: chats_path, local: true do |f| %>
+          <%= f.hidden_field :advertisement_id, value: @advertisement.ad_id %>
+          <%= f.hidden_field :ad_owner_id, value: @advertisement.user_id %>
+          
+          <div class="mt-8 pt-6 border-t">
+            <div class="flex justify-end">
+              <%= f.submit "Начать чат", class: "px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
