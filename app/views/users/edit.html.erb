@@ -1,0 +1,142 @@
+<div class="min-h-screen bg-gradient-to-br from-blue-50 to-gray-100 py-12 px-4 sm:px-6 lg:px-8">
+  <div class="max-w-3xl mx-auto">
+    <div class="bg-white shadow-lg rounded-2xl p-8">
+      <div class="mb-8">
+        <h2 class="text-3xl font-extrabold text-gray-900">
+          Редактировать профиль
+        </h2>
+        <p class="mt-2 text-sm text-gray-600">
+          <%= link_to "← Вернуться в профиль", profile_path, class: "font-medium text-blue-600 hover:text-blue-500" %>
+        </p>
+      </div>
+
+      <%= form_with model: @user, url: profile_path, method: :patch, local: true, class: "space-y-8" do |f| %>
+        <% if @user.errors.any? %>
+          <div class="rounded-md bg-red-50 p-4">
+            <div class="flex">
+              <div class="ml-3">
+                <h3 class="text-sm font-medium text-red-800">
+                  <%= pluralize(@user.errors.count, "error") %> при обновлении профиля:
+                </h3>
+                <div class="mt-2 text-sm text-red-700">
+                  <ul class="list-disc pl-5 space-y-1">
+                    <% @user.errors.full_messages.each do |message| %>
+                      <li><%= message %></li>
+                    <% end %>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        <% end %>
+
+        <!-- Основная информация -->
+        <div class="bg-gray-50 p-6 rounded-xl">
+          <h3 class="text-lg font-semibold text-gray-800 mb-4">Основная информация</h3>
+
+          <div class="space-y-4">
+            <div>
+              <%= f.label :username, "Имя пользователя", class: "block text-sm font-medium text-gray-700" %>
+              <div class="mt-1">
+                <%= f.text_field :username, required: true,
+                                 class: "w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm" %>
+              </div>
+            </div>
+
+            <div>
+              <%= f.label :phone, "Телефон", class: "block text-sm font-medium text-gray-700" %>
+              <div class="mt-1">
+                <%= f.text_field :phone,
+                                 placeholder: "+7 (999) 123-45-67",
+                                 class: "w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm" %>
+              </div>
+              <p class="mt-1 text-sm text-gray-500">Необязательно, формат: +7 (XXX) XXX-XX-XX</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Выбор города или создание нового -->
+        <div class="bg-blue-50 p-6 rounded-xl">
+          <h3 class="text-lg font-semibold text-blue-800 mb-4">Местоположение</h3>
+
+          <!-- Выбор существующего города -->
+          <div class="mb-6">
+            <h4 class="text-sm font-medium text-gray-700 mb-2">Выберите из существующих городов:</h4>
+            <% if @cities.present? %>
+              <div class="relative">
+                <%= f.select :city_id,
+                             options_for_select(
+                               [["Не выбрано", ""]] +
+                               @cities.map { |city| [city.full_location, city.city_id] },
+                               @user.city_id
+                             ),
+                             {},
+                             class: "block w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm bg-white cursor-pointer" %>
+              </div>
+              <p class="mt-1 text-sm text-gray-500">
+                <span class="font-medium">Совет:</span> Если вашего города нет в списке, заполните форму ниже
+              </p>
+            <% else %>
+              <p class="text-sm text-gray-500">Нет доступных городов</p>
+            <% end %>
+          </div>
+
+          <!-- Разделитель -->
+          <div class="relative my-6">
+            <div class="absolute inset-0 flex items-center">
+              <div class="w-full border-t border-gray-300"></div>
+            </div>
+            <div class="relative flex justify-center text-sm">
+              <span class="px-2 bg-blue-50 text-gray-500">ИЛИ</span>
+            </div>
+          </div>
+
+          <!-- Создание нового города -->
+          <div>
+            <h4 class="text-sm font-medium text-gray-700 mb-2">Добавить новый город:</h4>
+            <p class="text-sm text-gray-500 mb-4">Заполните все три поля ниже</p>
+
+            <div class="space-y-4">
+              <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div>
+                  <%= label_tag "city[country]", "Страна", class: "block text-sm font-medium text-gray-700" %>
+                  <div class="mt-1">
+                    <%= text_field_tag "city[country]", "",
+                                       placeholder: "Россия",
+                                       class: "w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm" %>
+                  </div>
+                </div>
+
+                <div>
+                  <%= label_tag "city[region]", "Регион/Область", class: "block text-sm font-medium text-gray-700" %>
+                  <div class="mt-1">
+                    <%= text_field_tag "city[region]", "",
+                                       placeholder: "Московская область",
+                                       class: "w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm" %>
+                  </div>
+                </div>
+
+                <div>
+                  <%= label_tag "city[name]", "Город", class: "block text-sm font-medium text-gray-700" %>
+                  <div class="mt-1">
+                    <%= text_field_tag "city[name]", "",
+                                       placeholder: "Москва",
+                                       class: "w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm" %>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Кнопки действий -->
+        <div class="flex space-x-4 pt-4">
+          <%= f.submit "Сохранить изменения",
+                       class: "flex-1 justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-lg text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-200 cursor-pointer" %>
+          <%= link_to "Отмена", profile_path,
+                      class: "flex-1 justify-center py-3 px-4 border border-gray-300 text-sm font-medium rounded-lg text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-200 text-center" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

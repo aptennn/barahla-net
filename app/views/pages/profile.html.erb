@@ -13,27 +13,56 @@
           <div class="space-y-2">
             <p><span class="font-medium">Имя пользователя:</span> <%= current_user.username %></p>
             <p><span class="font-medium">Email:</span> <%= current_user.email %></p>
+            <% if current_user.phone.present? %>
+              <p><span class="font-medium">Телефон:</span> <%= current_user.phone %></p>
+            <% end %>
+            <% if current_user.city.present? %>
+              <p><span class="font-medium">Местоположение:</span> <%= current_user.city.full_location %></p>
+            <% end %>
             <p><span class="font-medium">Дата регистрации:</span> <%= current_user.created_at.strftime("%d.%m.%Y") %></p>
+            <p><span class="font-medium">Рейтинг:</span> <%= current_user.rating || "Еще нет оценок" %></p>
           </div>
         </div>
 
         <div class="bg-blue-50 p-6 rounded-xl">
           <h3 class="text-lg font-semibold text-blue-800 mb-2">Статус аккаунта</h3>
           <p class="text-blue-700">Аккаунт активен ✓</p>
-          <p class="mt-4 text-gray-600 text-sm">Все функции доступны</p>
+          <div class="mt-4 space-y-2">
+            <p class="text-gray-600 text-sm">✔ Доступны все функции</p>
+            <p class="text-gray-600 text-sm">✔ Возможность публиковать объявления</p>
+            <p class="text-gray-600 text-sm">✔ Общение с другими пользователями</p>
+          </div>
         </div>
       </div>
 
       <div class="mt-8 pt-8 border-t border-gray-200">
         <h3 class="text-lg font-semibold text-gray-800 mb-4">Быстрые действия</h3>
-        <div class="flex space-x-4">
-          <%= link_to "Изменить профиль", "#",
-                      class: "bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 font-medium" %>
-          <%= link_to "Настройки", "#",
-                      class: "bg-gray-200 text-gray-800 px-6 py-3 rounded-lg hover:bg-gray-300 font-medium" %>
+        <div class="flex flex-wrap gap-4">
+          <%= link_to "Изменить профиль", edit_profile_path,
+                      class: "bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 font-medium transition duration-200" %>
           <%= link_to "Мои объявления", my_advertisements_path,
-                      class: "bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 font-medium"
-          %>
+                      class: "bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 font-medium transition duration-200" %>
+        </div>
+      </div>
+
+      <!-- Дополнительная статистика -->
+      <div class="mt-8 pt-8 border-t border-gray-200">
+        <h3 class="text-lg font-semibold text-gray-800 mb-4">Ваша активность</h3>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div class="bg-green-50 p-4 rounded-lg">
+            <p class="text-sm text-green-800 font-medium">Опубликовано объявлений</p>
+            <p class="text-2xl font-bold text-green-900 mt-2"><%= current_user.advertisements.count %></p>
+          </div>
+          <div class="bg-purple-50 p-4 rounded-lg">
+            <p class="text-sm text-purple-800 font-medium">Активные чаты</p>
+            <p class="text-2xl font-bold text-purple-900 mt-2">
+              <%= current_user.chats_as_ad_owner.count + current_user.chats_as_user.count %>
+            </p>
+          </div>
+          <div class="bg-orange-50 p-4 rounded-lg">
+            <p class="text-sm text-orange-800 font-medium">Отправлено сообщений</p>
+            <p class="text-2xl font-bold text-orange-900 mt-2"><%= current_user.sent_messages.count %></p>
+          </div>
         </div>
       </div>
     </div>
