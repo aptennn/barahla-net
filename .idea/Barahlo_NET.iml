@@ -1204,6 +1204,46 @@
       </library>
     </orderEntry>
     <orderEntry type="module-library">
+      <library name="ffi (v1.17.2) [path][gem]" type="rubylib">
+        <properties>
+          <option name="additionalInfo">
+            <AdditionalInfo>
+              <option name="authors" value="N/A" />
+              <option name="email" value="N/A" />
+              <option name="homepage" value="N/A" />
+              <option name="summary" value="N/A" />
+            </AdditionalInfo>
+          </option>
+          <option name="fromPath" value="true" />
+          <option name="name" value="ffi" />
+          <option name="requirePaths">
+            <list>
+              <option value="lib" />
+            </list>
+          </option>
+          <option name="url" value="file://$MODULE_DIR$/vendor/bundle/ruby/3.3.0/gems/ffi-1.17.2-x86_64-linux-gnu" />
+          <option name="version" value="1.17.2" />
+        </properties>
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/3.3.0/gems/ffi-1.17.2-x86_64-linux-gnu/lib" />
+          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/3.3.0/gems/ffi-1.17.2-x86_64-linux-gnu/sig" />
+          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/3.3.0/gems/ffi-1.17.2-x86_64-linux-gnu/rakelib" />
+          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/3.3.0/gems/ffi-1.17.2-x86_64-linux-gnu/samples" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES>
+          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/3.3.0/gems/ffi-1.17.2-x86_64-linux-gnu/lib" />
+          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/3.3.0/gems/ffi-1.17.2-x86_64-linux-gnu/sig" />
+          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/3.3.0/gems/ffi-1.17.2-x86_64-linux-gnu/rakelib" />
+          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/3.3.0/gems/ffi-1.17.2-x86_64-linux-gnu/samples" />
+        </SOURCES>
+        <excluded>
+          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/3.3.0/gems/ffi-1.17.2-x86_64-linux-gnu/rakelib" />
+          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/3.3.0/gems/ffi-1.17.2-x86_64-linux-gnu/samples" />
+        </excluded>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
       <library name="fugit (v1.12.1) [path][gem]" type="rubylib">
         <properties>
           <option name="additionalInfo">
@@ -1290,6 +1330,36 @@
         <JAVADOC />
         <SOURCES>
           <root url="file://$MODULE_DIR$/vendor/bundle/ruby/3.3.0/gems/i18n-1.14.7/lib" />
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="image_processing (v1.14.0) [path][gem]" type="rubylib">
+        <properties>
+          <option name="additionalInfo">
+            <AdditionalInfo>
+              <option name="authors" value="N/A" />
+              <option name="email" value="N/A" />
+              <option name="homepage" value="N/A" />
+              <option name="summary" value="N/A" />
+            </AdditionalInfo>
+          </option>
+          <option name="fromPath" value="true" />
+          <option name="name" value="image_processing" />
+          <option name="requirePaths">
+            <list>
+              <option value="lib" />
+            </list>
+          </option>
+          <option name="url" value="file://$MODULE_DIR$/vendor/bundle/ruby/3.3.0/gems/image_processing-1.14.0" />
+          <option name="version" value="1.14.0" />
+        </properties>
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/3.3.0/gems/image_processing-1.14.0/lib" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES>
+          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/3.3.0/gems/image_processing-1.14.0/lib" />
         </SOURCES>
       </library>
     </orderEntry>
@@ -1725,6 +1795,36 @@
         <JAVADOC />
         <SOURCES>
           <root url="file://$MODULE_DIR$/vendor/bundle/ruby/3.3.0/gems/matrix-0.4.3/lib" />
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="mini_magick (v5.3.1) [path][gem]" type="rubylib">
+        <properties>
+          <option name="additionalInfo">
+            <AdditionalInfo>
+              <option name="authors" value="N/A" />
+              <option name="email" value="N/A" />
+              <option name="homepage" value="N/A" />
+              <option name="summary" value="N/A" />
+            </AdditionalInfo>
+          </option>
+          <option name="fromPath" value="true" />
+          <option name="name" value="mini_magick" />
+          <option name="requirePaths">
+            <list>
+              <option value="lib" />
+            </list>
+          </option>
+          <option name="url" value="file://$MODULE_DIR$/vendor/bundle/ruby/3.3.0/gems/mini_magick-5.3.1" />
+          <option name="version" value="5.3.1" />
+        </properties>
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/3.3.0/gems/mini_magick-5.3.1/lib" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES>
+          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/3.3.0/gems/mini_magick-5.3.1/lib" />
         </SOURCES>
       </library>
     </orderEntry>
@@ -3244,6 +3344,44 @@
         <SOURCES>
           <root url="file://$MODULE_DIR$/vendor/bundle/ruby/3.3.0/gems/ruby-progressbar-1.13.0/lib" />
         </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="ruby-vips (v2.3.0) [path][gem]" type="rubylib">
+        <properties>
+          <option name="additionalInfo">
+            <AdditionalInfo>
+              <option name="authors" value="N/A" />
+              <option name="email" value="N/A" />
+              <option name="homepage" value="N/A" />
+              <option name="summary" value="N/A" />
+            </AdditionalInfo>
+          </option>
+          <option name="fromPath" value="true" />
+          <option name="name" value="ruby-vips" />
+          <option name="requirePaths">
+            <list>
+              <option value="lib" />
+            </list>
+          </option>
+          <option name="url" value="file://$MODULE_DIR$/vendor/bundle/ruby/3.3.0/gems/ruby-vips-2.3.0" />
+          <option name="version" value="2.3.0" />
+        </properties>
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/3.3.0/gems/ruby-vips-2.3.0/lib" />
+          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/3.3.0/gems/ruby-vips-2.3.0/.github" />
+          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/3.3.0/gems/ruby-vips-2.3.0/example" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES>
+          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/3.3.0/gems/ruby-vips-2.3.0/lib" />
+          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/3.3.0/gems/ruby-vips-2.3.0/.github" />
+          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/3.3.0/gems/ruby-vips-2.3.0/example" />
+        </SOURCES>
+        <excluded>
+          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/3.3.0/gems/ruby-vips-2.3.0/.github" />
+          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/3.3.0/gems/ruby-vips-2.3.0/example" />
+        </excluded>
       </library>
     </orderEntry>
     <orderEntry type="module-library">

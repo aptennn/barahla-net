@@ -9,4 +9,12 @@ class City < ApplicationRecord
   def full_name
     "#{name}, #{region}, #{country}"
   end
+
+  def name_with_region
+    "#{name}, #{region}"
+  end
+
+  def full_location
+    "#{name}, #{region}, #{country}"
+  end
 end
