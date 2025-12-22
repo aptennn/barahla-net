@@ -108,19 +108,21 @@
         </div>
 
         <!-- Контактная информация -->
-        <div class="border-t pt-6">
-          <h2 class="text-xl font-semibold text-gray-800 mb-4">Контактная информация</h2>
-          <div class="flex items-center space-x-4">
-            <div class="flex-1">
-              <p class="text-gray-700">
-                <span class="font-medium">Автор:</span> <%= @advertisement.user.email %>
-              </p>
-              <p class="text-gray-700 mt-2">
-                <span class="font-medium">Местоположение:</span> <%= @advertisement.city.name %>
-              </p>
-            </div>
-          </div>
-        </div>
+             <div class="border-t pt-6">
+               <h2 class="text-xl font-semibold text-gray-800 mb-4">Контактная информация</h2>
+               <div class="flex items-center space-x-4">
+                 <div class="flex-1">
+                   <p class="text-gray-700">
+                     <span class="font-medium">Автор:</span> <%= @advertisement.user.email %>
+                     <%= link_to "Перейти в профиль продавца", seller_profile_path(@advertisement.user),
+                                 class: "ml-2 px-3 py-1 bg-blue-100 text-blue-800 rounded-md text-sm hover:bg-blue-200 transition-colors" %>
+                   </p>
+                   <p class="text-gray-700 mt-2">
+                     <span class="font-medium">Местоположение:</span> <%= @advertisement.city.name %>
+                   </p>
+                 </div>
+               </div>
+             </div>
 
         <!-- Чаты объявления -->
         <% if current_user == @advertisement.user && @advertisement.chats.any? %>
