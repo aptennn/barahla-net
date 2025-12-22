@@ -12,12 +12,19 @@ class AdvertisementsController < ApplicationController
     @cities = City.all
     scope = Advertisement.includes(:user, :city).all
 
-    # Основные фильтры
+
+    if params[:query].present?
+      scope = scope.where("title LIKE?", "%#{params[:query]}%")
+    end
+
+    if params[:active_only] == '1'
+      scope = scope.where(status: 'active')
+    end
+
     scope = scope.where(category_id: params[:category_id]) if params[:category_id].present?
     scope = scope.where(city_id: params[:city_id]) if params[:city_id].present?
     scope = scope.where(status: params[:status]) if params[:status].present?
 
-    # Ценовые фильтры
     if params[:min_price].present?
       scope = scope.where("price >= ?", params[:min_price].to_f)
     end
@@ -25,13 +32,11 @@ class AdvertisementsController < ApplicationController
       scope = scope.where("price <= ?", params[:max_price].to_f)
     end
 
-    # Фильтры по категориям
     scope = apply_category_filters(scope) if params[:category_id].present?
 
     @advertisements = scope.order(created_at: :desc).page(params[:page]).per(15)
     @my_advertisements = current_user.advertisements.recent if logged_in?
   end
-
   def create
     all_params = params.require(:advertisement).to_unsafe_h
 
@@ -158,8 +163,8 @@ class AdvertisementsController < ApplicationController
 
   def my
     @advertisements = Advertisement.where(user_id: current_user.id)
-                          .includes(:chats)
-                          .order(created_at: :desc)
+                                   .includes(:chats)
+                                   .order(created_at: :desc)
   end
 
   private
