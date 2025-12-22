@@ -19,20 +19,29 @@ class UsersController < ApplicationController
   end
 
   def edit
+    @user = current_user
     @cities = City.all.order(:name)
+    @new_city = City.new
   end
 
   def update
-    if @user.update(user_update_params)
+    @user = current_user
+    if city_params_present?
+      city = City.find_or_create_by_attributes(city_params)
+      if city.persisted?
+        @user.city_id = city.city_id
+      else
+        @user.errors.add(:base, "Не удалось создать город: #{city.errors.full_messages.join(', ')}")
+      end
+    end
+
+    if @user.errors.empty? && @user.update(user_update_params)
       redirect_to profile_path, notice: "Профиль успешно обновлен!"
     else
       @cities = City.all.order(:name)
+      @new_city = City.new
       render :edit, status: :unprocessable_entity
     end
-  end
-
-  def profile
-    @user = current_user
   end
 
   private
@@ -41,13 +50,20 @@ class UsersController < ApplicationController
     @user = current_user
   end
 
-
-
   def user_params
     params.require(:user).permit(:username, :email, :password, :password_confirmation)
   end
 
   def user_update_params
-    params.require(:user).permit(:username, :phone, :city_id)
+    params.require(:user).permit(:username, :phone)
+  end
+
+  def city_params
+    params.require(:city).permit(:name, :region, :country)
+  end
+
+  def city_params_present?
+    params[:city] && params[:city][:name].present? &&
+      params[:city][:region].present? && params[:city][:country].present?
   end
 end
