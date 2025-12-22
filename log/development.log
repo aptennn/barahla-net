@@ -40880,3 +40880,353 @@ Processing by ChatsController#show as HTML
 Completed 200 OK in 30ms (Views: 3.1ms | ActiveRecord: 0.3ms (8 queries, 1 cached) | GC: 0.2ms)
 
 
+Started GET "/" for 127.0.0.1 at 2025-12-22 11:48:16 +0300
+  [1m[36mActiveRecord::SchemaMigration Load (0.8ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='BarahloNet'*/[0m
+Processing by AdvertisementsController#index as HTML
+Redirected to http://127.0.0.1:37281/login
+Filter chain halted as :require_login rendered or redirected
+Completed 302 Found in 11ms (ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/login" for 127.0.0.1 at 2025-12-22 11:48:16 +0300
+Processing by SessionsController#new as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering sessions/new.html.erb within layouts/application
+  Rendered layouts/_navbar.erb (Duration: 2.7ms | GC: 0.0ms)
+  Rendered sessions/new.html.erb within layouts/application (Duration: 9.8ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 29.0ms | GC: 0.0ms)
+Completed 200 OK in 60ms (Views: 35.7ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started POST "/login" for 127.0.0.1 at 2025-12-22 11:48:20 +0300
+Processing by SessionsController#create as TURBO_STREAM
+  Parameters: {"authenticity_token" => "[FILTERED]", "email" => "[FILTERED]", "password" => "[FILTERED]", "commit" => "Войти"}
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."email" = 'guffy911d@gmail.com' LIMIT 1 /*action='create',application='BarahloNet',controller='sessions'*/[0m
+  ↳ app/controllers/sessions_controller.rb:9:in 'SessionsController#create'
+Redirected to http://127.0.0.1:37281/
+Completed 302 Found in 238ms (ActiveRecord: 2.0ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/" for 127.0.0.1 at 2025-12-22 11:48:21 +0300
+Processing by AdvertisementsController#index as TURBO_STREAM
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = 1 LIMIT 1 /*action='index',application='BarahloNet',controller='advertisements'*/[0m
+  ↳ app/controllers/application_controller.rb:9:in 'ApplicationController#set_current_user'
+  Rendering layout layouts/application.html.erb
+  Rendering advertisements/index.html.erb within layouts/application
+  Rendered layouts/_navbar.erb (Duration: 2.8ms | GC: 0.0ms)
+  Rendered advertisements/_search_form.erb (Duration: 4.0ms | GC: 0.0ms)
+  [1m[36mCity Load (0.4ms)[0m  [1m[34mSELECT "cities".* FROM "cities" /*action='index',application='BarahloNet',controller='advertisements'*/[0m
+  ↳ app/views/advertisements/_filters.erb:26:in 'Enumerable#map'
+  Rendered filters/_transport_filters.erb (Duration: 2.8ms | GC: 0.0ms)
+  Rendered filters/_real_estate_filters.erb (Duration: 9.3ms | GC: 0.0ms)
+  Rendered filters/_service_filters.erb (Duration: 1.8ms | GC: 0.0ms)
+  Rendered filters/_thing_filters.erb (Duration: 1.6ms | GC: 0.0ms)
+  Rendered filters/_job_filters.erb (Duration: 17.9ms | GC: 16.6ms)
+  Rendered advertisements/_filters.erb (Duration: 72.2ms | GC: 16.6ms)
+  [1m[36mAdvertisement Exists? (0.1ms)[0m  [1m[34mSELECT 1 AS one FROM "advertisements" LIMIT 1 OFFSET 0 /*action='index',application='BarahloNet',controller='advertisements'*/[0m
+  ↳ app/views/advertisements/index.html.erb:71
+  [1m[36mCACHE Advertisement Exists? (0.0ms)[0m  [1m[34mSELECT 1 AS one FROM "advertisements" LIMIT 1 OFFSET 0[0m
+  ↳ app/views/advertisements/_table.erb:3
+  [1m[36mAdvertisement Load (0.6ms)[0m  [1m[34mSELECT "advertisements".* FROM "advertisements" ORDER BY "advertisements"."created_at" DESC LIMIT 15 OFFSET 0 /*action='index',application='BarahloNet',controller='advertisements'*/[0m
+  ↳ app/views/advertisements/_table.erb:9
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" IN (4, 3, 1, 2) /*action='index',application='BarahloNet',controller='advertisements'*/[0m
+  ↳ app/views/advertisements/_table.erb:9
+  [1m[36mCity Load (0.1ms)[0m  [1m[34mSELECT "cities".* FROM "cities" WHERE "cities"."city_id" IN (2, 1, 5, 4) /*action='index',application='BarahloNet',controller='advertisements'*/[0m
+  ↳ app/views/advertisements/_table.erb:9
+  [1m[36mAdvertisementPicture Load (0.1ms)[0m  [1m[34mSELECT "advertisement_pictures".* FROM "advertisement_pictures" WHERE "advertisement_pictures"."ad_id" = 12 /*action='index',application='BarahloNet',controller='advertisements'*/[0m
+  ↳ app/views/shared/advertisements/_advertisement_card.erb:5
+  Rendered shared/advertisements/_advertisement_card.erb (Duration: 78.9ms | GC: 1.7ms)
+  [1m[36mAdvertisementPicture Load (0.1ms)[0m  [1m[34mSELECT "advertisement_pictures".* FROM "advertisement_pictures" WHERE "advertisement_pictures"."ad_id" = 11 /*action='index',application='BarahloNet',controller='advertisements'*/[0m
+  ↳ app/views/shared/advertisements/_advertisement_card.erb:5
+  Rendered shared/advertisements/_advertisement_card.erb (Duration: 4.5ms | GC: 0.0ms)
+  [1m[36mAdvertisementPicture Load (0.1ms)[0m  [1m[34mSELECT "advertisement_pictures".* FROM "advertisement_pictures" WHERE "advertisement_pictures"."ad_id" = 7 /*action='index',application='BarahloNet',controller='advertisements'*/[0m
+  ↳ app/views/shared/advertisements/_advertisement_card.erb:5
+  [1m[36mActiveStorage::Attachment Load (0.5ms)[0m  [1m[34mSELECT "active_storage_attachments".* FROM "active_storage_attachments" WHERE "active_storage_attachments"."record_id" = 7 AND "active_storage_attachments"."record_type" = 'AdvertisementPicture' AND "active_storage_attachments"."name" = 'image' LIMIT 1 /*action='index',application='BarahloNet',controller='advertisements'*/[0m
+  ↳ app/views/shared/advertisements/_advertisement_card.erb:5
+  [1m[36mActiveStorage::Blob Load (0.1ms)[0m  [1m[34mSELECT "active_storage_blobs".* FROM "active_storage_blobs" WHERE "active_storage_blobs"."id" = 5 LIMIT 1 /*action='index',application='BarahloNet',controller='advertisements'*/[0m
+  ↳ app/views/shared/advertisements/_advertisement_card.erb:10
+  Rendered shared/advertisements/_advertisement_card.erb (Duration: 80.8ms | GC: 1.2ms)
+  [1m[36mAdvertisementPicture Load (0.1ms)[0m  [1m[34mSELECT "advertisement_pictures".* FROM "advertisement_pictures" WHERE "advertisement_pictures"."ad_id" = 5 /*action='index',application='BarahloNet',controller='advertisements'*/[0m
+  ↳ app/views/shared/advertisements/_advertisement_card.erb:5
+  Rendered shared/advertisements/_advertisement_card.erb (Duration: 3.5ms | GC: 0.0ms)
+  [1m[36mAdvertisementPicture Load (0.1ms)[0m  [1m[34mSELECT "advertisement_pictures".* FROM "advertisement_pictures" WHERE "advertisement_pictures"."ad_id" = 4 /*action='index',application='BarahloNet',controller='advertisements'*/[0m
+  ↳ app/views/shared/advertisements/_advertisement_card.erb:5
+  Rendered shared/advertisements/_advertisement_card.erb (Duration: 7.8ms | GC: 0.0ms)
+  [1m[36mAdvertisementPicture Load (0.1ms)[0m  [1m[34mSELECT "advertisement_pictures".* FROM "advertisement_pictures" WHERE "advertisement_pictures"."ad_id" = 2 /*action='index',application='BarahloNet',controller='advertisements'*/[0m
+  ↳ app/views/shared/advertisements/_advertisement_card.erb:5
+  [1m[36mActiveStorage::Attachment Load (0.1ms)[0m  [1m[34mSELECT "active_storage_attachments".* FROM "active_storage_attachments" WHERE "active_storage_attachments"."record_id" = 8 AND "active_storage_attachments"."record_type" = 'AdvertisementPicture' AND "active_storage_attachments"."name" = 'image' LIMIT 1 /*action='index',application='BarahloNet',controller='advertisements'*/[0m
+  ↳ app/views/shared/advertisements/_advertisement_card.erb:5
+  [1m[36mActiveStorage::Blob Load (0.1ms)[0m  [1m[34mSELECT "active_storage_blobs".* FROM "active_storage_blobs" WHERE "active_storage_blobs"."id" = 6 LIMIT 1 /*action='index',application='BarahloNet',controller='advertisements'*/[0m
+  ↳ app/views/shared/advertisements/_advertisement_card.erb:10
+  Rendered shared/advertisements/_advertisement_card.erb (Duration: 13.5ms | GC: 0.0ms)
+  [1m[36mAdvertisementPicture Load (0.2ms)[0m  [1m[34mSELECT "advertisement_pictures".* FROM "advertisement_pictures" WHERE "advertisement_pictures"."ad_id" = 1 /*action='index',application='BarahloNet',controller='advertisements'*/[0m
+  ↳ app/views/shared/advertisements/_advertisement_card.erb:5
+  [1m[36mActiveStorage::Attachment Load (0.1ms)[0m  [1m[34mSELECT "active_storage_attachments".* FROM "active_storage_attachments" WHERE "active_storage_attachments"."record_id" = 9 AND "active_storage_attachments"."record_type" = 'AdvertisementPicture' AND "active_storage_attachments"."name" = 'image' LIMIT 1 /*action='index',application='BarahloNet',controller='advertisements'*/[0m
+  ↳ app/views/shared/advertisements/_advertisement_card.erb:5
+  [1m[36mActiveStorage::Blob Load (0.1ms)[0m  [1m[34mSELECT "active_storage_blobs".* FROM "active_storage_blobs" WHERE "active_storage_blobs"."id" = 7 LIMIT 1 /*action='index',application='BarahloNet',controller='advertisements'*/[0m
+  ↳ app/views/shared/advertisements/_advertisement_card.erb:10
+  Rendered shared/advertisements/_advertisement_card.erb (Duration: 19.0ms | GC: 0.3ms)
+  Rendered advertisements/_table.erb (Duration: 245.1ms | GC: 4.8ms)
+  Rendered advertisements/index.html.erb within layouts/application (Duration: 331.0ms | GC: 21.4ms)
+  Rendered layout layouts/application.html.erb (Duration: 334.2ms | GC: 21.4ms)
+Completed 200 OK in 378ms (Views: 332.1ms | ActiveRecord: 8.7ms (20 queries, 1 cached) | GC: 21.4ms)
+
+
+Started GET "/rails/active_storage/blobs/redirect/eyJfcmFpbHMiOnsiZGF0YSI6NiwicHVyIjoiYmxvYl9pZCJ9fQ==--bf9e47403d1e3ee477499f988044aee23a485dab/Nabburg_Neusath_Freilandmuseum_Ross-Stall_8235106.jpg" for 127.0.0.1 at 2025-12-22 11:48:21 +0300
+Started GET "/rails/active_storage/blobs/redirect/eyJfcmFpbHMiOnsiZGF0YSI6NywicHVyIjoiYmxvYl9pZCJ9fQ==--360360fb8147abfabf504d6d9fcd11605e1ba1ef/images.jpg" for 127.0.0.1 at 2025-12-22 11:48:21 +0300
+Started GET "/rails/active_storage/blobs/redirect/eyJfcmFpbHMiOnsiZGF0YSI6NSwicHVyIjoiYmxvYl9pZCJ9fQ==--a3ab30a4d94c6e87ab7bec5ba51a9a8b049175cb/images.jpg" for 127.0.0.1 at 2025-12-22 11:48:21 +0300
+Processing by ActiveStorage::Blobs::RedirectController#show as JPEG
+  Parameters: {"signed_id" => "eyJfcmFpbHMiOnsiZGF0YSI6NiwicHVyIjoiYmxvYl9pZCJ9fQ==--bf9e47403d1e3ee477499f988044aee23a485dab", "filename" => "Nabburg_Neusath_Freilandmuseum_Ross-Stall_8235106"}
+Processing by ActiveStorage::Blobs::RedirectController#show as JPEG
+  Parameters: {"signed_id" => "eyJfcmFpbHMiOnsiZGF0YSI6NywicHVyIjoiYmxvYl9pZCJ9fQ==--360360fb8147abfabf504d6d9fcd11605e1ba1ef", "filename" => "images"}
+Processing by ActiveStorage::Blobs::RedirectController#show as JPEG
+  Parameters: {"signed_id" => "eyJfcmFpbHMiOnsiZGF0YSI6NSwicHVyIjoiYmxvYl9pZCJ9fQ==--a3ab30a4d94c6e87ab7bec5ba51a9a8b049175cb", "filename" => "images"}
+  [1m[36mActiveStorage::Blob Load (0.1ms)[0m  [1m[34mSELECT "active_storage_blobs".* FROM "active_storage_blobs" WHERE "active_storage_blobs"."id" = 6 LIMIT 1 /*action='show',application='BarahloNet',controller='redirect'*/[0m
+[36m  Disk Storage (3.2ms) [0m[34mGenerated URL for file at key: bkutmrwbu3k1uv41qhi7zugw9qbd (http://127.0.0.1:37281/rails/active_storage/disk/eyJfcmFpbHMiOnsiZGF0YSI6eyJrZXkiOiJia3V0bXJ3YnUzazF1djQxcWhpN3p1Z3c5cWJkIiwiZGlzcG9zaXRpb24iOiJpbmxpbmU7IGZpbGVuYW1lPVwiTmFiYnVyZ19OZXVzYXRoX0ZyZWlsYW5kbXVzZXVtX1Jvc3MtU3RhbGxfODIzNTEwNi5qcGdcIjsgZmlsZW5hbWUqPVVURi04JydOYWJidXJnX05ldXNhdGhfRnJlaWxhbmRtdXNldW1fUm9zcy1TdGFsbF84MjM1MTA2LmpwZyIsImNvbnRlbnRfdHlwZSI6ImltYWdlL2pwZWciLCJzZXJ2aWNlX25hbWUiOiJsb2NhbCJ9LCJleHAiOiIyMDI1LTEyLTIyVDA4OjUzOjIxLjc1MVoiLCJwdXIiOiJibG9iX2tleSJ9fQ==--3e43a0fdcbea77265ae5be07199d2c243a089625/Nabburg_Neusath_Freilandmuseum_Ross-Stall_8235106.jpg)[0m
+Redirected to http://127.0.0.1:37281/rails/active_storage/disk/eyJfcmFpbHMiOnsiZGF0YSI6eyJrZXkiOiJia3V0bXJ3YnUzazF1djQxcWhpN3p1Z3c5cWJkIiwiZGlzcG9zaXRpb24iOiJpbmxpbmU7IGZpbGVuYW1lPVwiTmFiYnVyZ19OZXVzYXRoX0ZyZWlsYW5kbXVzZXVtX1Jvc3MtU3RhbGxfODIzNTEwNi5qcGdcIjsgZmlsZW5hbWUqPVVURi04JydOYWJidXJnX05ldXNhdGhfRnJlaWxhbmRtdXNldW1fUm9zcy1TdGFsbF84MjM1MTA2LmpwZyIsImNvbnRlbnRfdHlwZSI6ImltYWdlL2pwZWciLCJzZXJ2aWNlX25hbWUiOiJsb2NhbCJ9LCJleHAiOiIyMDI1LTEyLTIyVDA4OjUzOjIxLjc1MVoiLCJwdXIiOiJibG9iX2tleSJ9fQ==--3e43a0fdcbea77265ae5be07199d2c243a089625/Nabburg_Neusath_Freilandmuseum_Ross-Stall_8235106.jpg
+Completed 302 Found in 90ms (ActiveRecord: 0.1ms (1 query, 0 cached) | GC: 0.4ms)
+
+
+  [1m[36mActiveStorage::Blob Load (0.1ms)[0m  [1m[34mSELECT "active_storage_blobs".* FROM "active_storage_blobs" WHERE "active_storage_blobs"."id" = 7 LIMIT 1 /*action='show',application='BarahloNet',controller='redirect'*/[0m
+[36m  Disk Storage (0.3ms) [0m[34mGenerated URL for file at key: 1l32l2r4eu5a0au406uj42ziru7a (http://127.0.0.1:37281/rails/active_storage/disk/eyJfcmFpbHMiOnsiZGF0YSI6eyJrZXkiOiIxbDMybDJyNGV1NWEwYXU0MDZ1ajQyemlydTdhIiwiZGlzcG9zaXRpb24iOiJpbmxpbmU7IGZpbGVuYW1lPVwiaW1hZ2VzLmpwZ1wiOyBmaWxlbmFtZSo9VVRGLTgnJ2ltYWdlcy5qcGciLCJjb250ZW50X3R5cGUiOiJpbWFnZS9qcGVnIiwic2VydmljZV9uYW1lIjoibG9jYWwifSwiZXhwIjoiMjAyNS0xMi0yMlQwODo1MzoyMS43NjZaIiwicHVyIjoiYmxvYl9rZXkifX0=--c6c0ed28f84744cb6ff4dc1e6a2c54b7fe4a574e/images.jpg)[0m
+Redirected to http://127.0.0.1:37281/rails/active_storage/disk/eyJfcmFpbHMiOnsiZGF0YSI6eyJrZXkiOiIxbDMybDJyNGV1NWEwYXU0MDZ1ajQyemlydTdhIiwiZGlzcG9zaXRpb24iOiJpbmxpbmU7IGZpbGVuYW1lPVwiaW1hZ2VzLmpwZ1wiOyBmaWxlbmFtZSo9VVRGLTgnJ2ltYWdlcy5qcGciLCJjb250ZW50X3R5cGUiOiJpbWFnZS9qcGVnIiwic2VydmljZV9uYW1lIjoibG9jYWwifSwiZXhwIjoiMjAyNS0xMi0yMlQwODo1MzoyMS43NjZaIiwicHVyIjoiYmxvYl9rZXkifX0=--c6c0ed28f84744cb6ff4dc1e6a2c54b7fe4a574e/images.jpg
+Completed 302 Found in 91ms (ActiveRecord: 0.1ms (1 query, 0 cached) | GC: 0.4ms)
+
+
+  [1m[36mActiveStorage::Blob Load (0.1ms)[0m  [1m[34mSELECT "active_storage_blobs".* FROM "active_storage_blobs" WHERE "active_storage_blobs"."id" = 5 LIMIT 1 /*action='show',application='BarahloNet',controller='redirect'*/[0m
+[36m  Disk Storage (0.2ms) [0m[34mGenerated URL for file at key: avnsze97fscm8cto9qvmr70di2ye (http://127.0.0.1:37281/rails/active_storage/disk/eyJfcmFpbHMiOnsiZGF0YSI6eyJrZXkiOiJhdm5zemU5N2ZzY204Y3RvOXF2bXI3MGRpMnllIiwiZGlzcG9zaXRpb24iOiJpbmxpbmU7IGZpbGVuYW1lPVwiaW1hZ2VzLmpwZ1wiOyBmaWxlbmFtZSo9VVRGLTgnJ2ltYWdlcy5qcGciLCJjb250ZW50X3R5cGUiOiJpbWFnZS9qcGVnIiwic2VydmljZV9uYW1lIjoibG9jYWwifSwiZXhwIjoiMjAyNS0xMi0yMlQwODo1MzoyMS43NzFaIiwicHVyIjoiYmxvYl9rZXkifX0=--a56d7dc208dd79a66dce062d88933e5032748664/images.jpg)[0m
+Redirected to http://127.0.0.1:37281/rails/active_storage/disk/eyJfcmFpbHMiOnsiZGF0YSI6eyJrZXkiOiJhdm5zemU5N2ZzY204Y3RvOXF2bXI3MGRpMnllIiwiZGlzcG9zaXRpb24iOiJpbmxpbmU7IGZpbGVuYW1lPVwiaW1hZ2VzLmpwZ1wiOyBmaWxlbmFtZSo9VVRGLTgnJ2ltYWdlcy5qcGciLCJjb250ZW50X3R5cGUiOiJpbWFnZS9qcGVnIiwic2VydmljZV9uYW1lIjoibG9jYWwifSwiZXhwIjoiMjAyNS0xMi0yMlQwODo1MzoyMS43NzFaIiwicHVyIjoiYmxvYl9rZXkifX0=--a56d7dc208dd79a66dce062d88933e5032748664/images.jpg
+Completed 302 Found in 91ms (ActiveRecord: 0.1ms (1 query, 0 cached) | GC: 0.1ms)
+
+
+Started GET "/advertisements/12" for 127.0.0.1 at 2025-12-22 11:48:21 +0300
+Started GET "/rails/active_storage/disk/eyJfcmFpbHMiOnsiZGF0YSI6eyJrZXkiOiIxbDMybDJyNGV1NWEwYXU0MDZ1ajQyemlydTdhIiwiZGlzcG9zaXRpb24iOiJpbmxpbmU7IGZpbGVuYW1lPVwiaW1hZ2VzLmpwZ1wiOyBmaWxlbmFtZSo9VVRGLTgnJ2ltYWdlcy5qcGciLCJjb250ZW50X3R5cGUiOiJpbWFnZS9qcGVnIiwic2VydmljZV9uYW1lIjoibG9jYWwifSwiZXhwIjoiMjAyNS0xMi0yMlQwODo1MzoyMS43NjZaIiwicHVyIjoiYmxvYl9rZXkifX0=--c6c0ed28f84744cb6ff4dc1e6a2c54b7fe4a574e/images.jpg" for 127.0.0.1 at 2025-12-22 11:48:21 +0300
+Started GET "/rails/active_storage/disk/eyJfcmFpbHMiOnsiZGF0YSI6eyJrZXkiOiJia3V0bXJ3YnUzazF1djQxcWhpN3p1Z3c5cWJkIiwiZGlzcG9zaXRpb24iOiJpbmxpbmU7IGZpbGVuYW1lPVwiTmFiYnVyZ19OZXVzYXRoX0ZyZWlsYW5kbXVzZXVtX1Jvc3MtU3RhbGxfODIzNTEwNi5qcGdcIjsgZmlsZW5hbWUqPVVURi04JydOYWJidXJnX05ldXNhdGhfRnJlaWxhbmRtdXNldW1fUm9zcy1TdGFsbF84MjM1MTA2LmpwZyIsImNvbnRlbnRfdHlwZSI6ImltYWdlL2pwZWciLCJzZXJ2aWNlX25hbWUiOiJsb2NhbCJ9LCJleHAiOiIyMDI1LTEyLTIyVDA4OjUzOjIxLjc1MVoiLCJwdXIiOiJibG9iX2tleSJ9fQ==--3e43a0fdcbea77265ae5be07199d2c243a089625/Nabburg_Neusath_Freilandmuseum_Ross-Stall_8235106.jpg" for 127.0.0.1 at 2025-12-22 11:48:21 +0300
+Processing by AdvertisementsController#show as HTML
+  Parameters: {"id" => "12"}
+Processing by ActiveStorage::DiskController#show as JPEG
+  Parameters: {"encoded_key" => "[FILTERED]", "filename" => "images"}
+Processing by ActiveStorage::DiskController#show as JPEG
+  Parameters: {"encoded_key" => "[FILTERED]", "filename" => "Nabburg_Neusath_Freilandmuseum_Ross-Stall_8235106"}
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = 1 LIMIT 1 /*action='show',application='BarahloNet',controller='advertisements'*/[0m
+  ↳ app/controllers/application_controller.rb:9:in 'ApplicationController#set_current_user'
+  [1m[36mAdvertisement Load (0.1ms)[0m  [1m[34mSELECT "advertisements".* FROM "advertisements" WHERE "advertisements"."ad_id" = 12 LIMIT 1 /*action='show',application='BarahloNet',controller='advertisements'*/[0m
+  ↳ app/controllers/advertisements_controller.rb:198:in 'AdvertisementsController#set_advertisement'
+  Rendering layout layouts/application.html.erb
+  Rendering advertisements/show.html.erb within layouts/application
+  Rendered layouts/_navbar.erb (Duration: 7.3ms | GC: 0.0ms)
+  [1m[36mAdvertisementPicture Exists? (0.1ms)[0m  [1m[34mSELECT 1 AS one FROM "advertisement_pictures" WHERE "advertisement_pictures"."ad_id" = 12 LIMIT 1 /*action='show',application='BarahloNet',controller='advertisements'*/[0m
+  ↳ app/views/advertisements/show.html.erb:16
+  [1m[36mCity Load (0.1ms)[0m  [1m[34mSELECT "cities".* FROM "cities" WHERE "cities"."city_id" = 2 LIMIT 1 /*action='show',application='BarahloNet',controller='advertisements'*/[0m
+  ↳ app/views/advertisements/show.html.erb:71
+  [1m[36mRealEstate Load (0.1ms)[0m  [1m[34mSELECT "real_estates".* FROM "real_estates" WHERE "real_estates"."advertisement_id" = 12 LIMIT 1 /*action='show',application='BarahloNet',controller='advertisements'*/[0m
+  ↳ app/models/advertisement.rb:30:in 'Advertisement#category_detail'
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = 4 LIMIT 1 /*action='show',application='BarahloNet',controller='advertisements'*/[0m
+  ↳ app/views/advertisements/show.html.erb:116
+  [1m[36mCACHE AdvertisementPicture Exists? (0.3ms)[0m  [1m[34mSELECT 1 AS one FROM "advertisement_pictures" WHERE "advertisement_pictures"."ad_id" = 12 LIMIT 1[0m
+  ↳ app/views/advertisements/show.html.erb:175
+  Rendered advertisements/show.html.erb within layouts/application (Duration: 101.0ms | GC: 28.2ms)
+  Rendered layout layouts/application.html.erb (Duration: 103.8ms | GC: 28.2ms)
+Completed 200 OK in 167ms (ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 28.2ms)
+
+
+Completed 200 OK in 177ms (Views: 106.1ms | ActiveRecord: 0.7ms (7 queries, 1 cached) | GC: 28.2ms)
+
+
+Completed 200 OK in 178ms (ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 28.2ms)
+
+
+Started GET "/rails/active_storage/disk/eyJfcmFpbHMiOnsiZGF0YSI6eyJrZXkiOiJhdm5zemU5N2ZzY204Y3RvOXF2bXI3MGRpMnllIiwiZGlzcG9zaXRpb24iOiJpbmxpbmU7IGZpbGVuYW1lPVwiaW1hZ2VzLmpwZ1wiOyBmaWxlbmFtZSo9VVRGLTgnJ2ltYWdlcy5qcGciLCJjb250ZW50X3R5cGUiOiJpbWFnZS9qcGVnIiwic2VydmljZV9uYW1lIjoibG9jYWwifSwiZXhwIjoiMjAyNS0xMi0yMlQwODo1MzoyMS43NzFaIiwicHVyIjoiYmxvYl9rZXkifX0=--a56d7dc208dd79a66dce062d88933e5032748664/images.jpg" for 127.0.0.1 at 2025-12-22 11:48:22 +0300
+Processing by ActiveStorage::DiskController#show as JPEG
+  Parameters: {"encoded_key" => "[FILTERED]", "filename" => "images"}
+Completed 200 OK in 8ms (ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/" for 127.0.0.1 at 2025-12-22 11:49:15 +0300
+Processing by AdvertisementsController#index as HTML
+  [1m[36mUser Load (0.8ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = 1 LIMIT 1 /*action='index',application='BarahloNet',controller='advertisements'*/[0m
+  ↳ app/controllers/application_controller.rb:9:in 'ApplicationController#set_current_user'
+  Rendering layout layouts/application.html.erb
+  Rendering advertisements/index.html.erb within layouts/application
+  Rendered layouts/_navbar.erb (Duration: 1.5ms | GC: 0.0ms)
+  Rendered advertisements/_search_form.erb (Duration: 2.8ms | GC: 0.0ms)
+  [1m[36mCity Load (0.1ms)[0m  [1m[34mSELECT "cities".* FROM "cities" /*action='index',application='BarahloNet',controller='advertisements'*/[0m
+  ↳ app/views/advertisements/_filters.erb:26:in 'Enumerable#map'
+  Rendered filters/_transport_filters.erb (Duration: 4.6ms | GC: 0.4ms)
+  Rendered filters/_real_estate_filters.erb (Duration: 3.6ms | GC: 0.2ms)
+  Rendered filters/_service_filters.erb (Duration: 1.0ms | GC: 0.2ms)
+  Rendered filters/_thing_filters.erb (Duration: 0.5ms | GC: 0.0ms)
+  Rendered filters/_job_filters.erb (Duration: 1.8ms | GC: 1.1ms)
+  Rendered advertisements/_filters.erb (Duration: 16.8ms | GC: 2.4ms)
+  [1m[36mAdvertisement Exists? (0.1ms)[0m  [1m[34mSELECT 1 AS one FROM "advertisements" LIMIT 1 OFFSET 0 /*action='index',application='BarahloNet',controller='advertisements'*/[0m
+  ↳ app/views/advertisements/index.html.erb:71
+  [1m[36mCACHE Advertisement Exists? (0.0ms)[0m  [1m[34mSELECT 1 AS one FROM "advertisements" LIMIT 1 OFFSET 0[0m
+  ↳ app/views/advertisements/_table.erb:3
+  [1m[36mAdvertisement Load (0.2ms)[0m  [1m[34mSELECT "advertisements".* FROM "advertisements" ORDER BY "advertisements"."created_at" DESC LIMIT 15 OFFSET 0 /*action='index',application='BarahloNet',controller='advertisements'*/[0m
+  ↳ app/views/advertisements/_table.erb:9
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" IN (4, 3, 1, 2) /*action='index',application='BarahloNet',controller='advertisements'*/[0m
+  ↳ app/views/advertisements/_table.erb:9
+  [1m[36mCity Load (0.1ms)[0m  [1m[34mSELECT "cities".* FROM "cities" WHERE "cities"."city_id" IN (2, 1, 5, 4) /*action='index',application='BarahloNet',controller='advertisements'*/[0m
+  ↳ app/views/advertisements/_table.erb:9
+  [1m[36mAdvertisementPicture Load (0.1ms)[0m  [1m[34mSELECT "advertisement_pictures".* FROM "advertisement_pictures" WHERE "advertisement_pictures"."ad_id" = 12 /*action='index',application='BarahloNet',controller='advertisements'*/[0m
+  ↳ app/views/shared/advertisements/_advertisement_card.erb:5
+  Rendered shared/advertisements/_advertisement_card.erb (Duration: 7.4ms | GC: 0.0ms)
+  [1m[36mAdvertisementPicture Load (0.1ms)[0m  [1m[34mSELECT "advertisement_pictures".* FROM "advertisement_pictures" WHERE "advertisement_pictures"."ad_id" = 11 /*action='index',application='BarahloNet',controller='advertisements'*/[0m
+  ↳ app/views/shared/advertisements/_advertisement_card.erb:5
+  Rendered shared/advertisements/_advertisement_card.erb (Duration: 4.1ms | GC: 0.0ms)
+  [1m[36mAdvertisementPicture Load (0.2ms)[0m  [1m[34mSELECT "advertisement_pictures".* FROM "advertisement_pictures" WHERE "advertisement_pictures"."ad_id" = 7 /*action='index',application='BarahloNet',controller='advertisements'*/[0m
+  ↳ app/views/shared/advertisements/_advertisement_card.erb:5
+  [1m[36mActiveStorage::Attachment Load (0.1ms)[0m  [1m[34mSELECT "active_storage_attachments".* FROM "active_storage_attachments" WHERE "active_storage_attachments"."record_id" = 7 AND "active_storage_attachments"."record_type" = 'AdvertisementPicture' AND "active_storage_attachments"."name" = 'image' LIMIT 1 /*action='index',application='BarahloNet',controller='advertisements'*/[0m
+  ↳ app/views/shared/advertisements/_advertisement_card.erb:5
+  [1m[36mActiveStorage::Blob Load (0.1ms)[0m  [1m[34mSELECT "active_storage_blobs".* FROM "active_storage_blobs" WHERE "active_storage_blobs"."id" = 5 LIMIT 1 /*action='index',application='BarahloNet',controller='advertisements'*/[0m
+  ↳ app/views/shared/advertisements/_advertisement_card.erb:10
+  Rendered shared/advertisements/_advertisement_card.erb (Duration: 25.6ms | GC: 0.0ms)
+  [1m[36mAdvertisementPicture Load (0.1ms)[0m  [1m[34mSELECT "advertisement_pictures".* FROM "advertisement_pictures" WHERE "advertisement_pictures"."ad_id" = 5 /*action='index',application='BarahloNet',controller='advertisements'*/[0m
+  ↳ app/views/shared/advertisements/_advertisement_card.erb:5
+  Rendered shared/advertisements/_advertisement_card.erb (Duration: 5.9ms | GC: 0.0ms)
+  [1m[36mAdvertisementPicture Load (0.1ms)[0m  [1m[34mSELECT "advertisement_pictures".* FROM "advertisement_pictures" WHERE "advertisement_pictures"."ad_id" = 4 /*action='index',application='BarahloNet',controller='advertisements'*/[0m
+  ↳ app/views/shared/advertisements/_advertisement_card.erb:5
+  Rendered shared/advertisements/_advertisement_card.erb (Duration: 1.2ms | GC: 0.0ms)
+  [1m[36mAdvertisementPicture Load (0.0ms)[0m  [1m[34mSELECT "advertisement_pictures".* FROM "advertisement_pictures" WHERE "advertisement_pictures"."ad_id" = 2 /*action='index',application='BarahloNet',controller='advertisements'*/[0m
+  ↳ app/views/shared/advertisements/_advertisement_card.erb:5
+  [1m[36mActiveStorage::Attachment Load (0.1ms)[0m  [1m[34mSELECT "active_storage_attachments".* FROM "active_storage_attachments" WHERE "active_storage_attachments"."record_id" = 8 AND "active_storage_attachments"."record_type" = 'AdvertisementPicture' AND "active_storage_attachments"."name" = 'image' LIMIT 1 /*action='index',application='BarahloNet',controller='advertisements'*/[0m
+  ↳ app/views/shared/advertisements/_advertisement_card.erb:5
+  [1m[36mActiveStorage::Blob Load (0.1ms)[0m  [1m[34mSELECT "active_storage_blobs".* FROM "active_storage_blobs" WHERE "active_storage_blobs"."id" = 6 LIMIT 1 /*action='index',application='BarahloNet',controller='advertisements'*/[0m
+  ↳ app/views/shared/advertisements/_advertisement_card.erb:10
+  Rendered shared/advertisements/_advertisement_card.erb (Duration: 13.7ms | GC: 0.0ms)
+  [1m[36mAdvertisementPicture Load (0.1ms)[0m  [1m[34mSELECT "advertisement_pictures".* FROM "advertisement_pictures" WHERE "advertisement_pictures"."ad_id" = 1 /*action='index',application='BarahloNet',controller='advertisements'*/[0m
+  ↳ app/views/shared/advertisements/_advertisement_card.erb:5
+  [1m[36mActiveStorage::Attachment Load (0.2ms)[0m  [1m[34mSELECT "active_storage_attachments".* FROM "active_storage_attachments" WHERE "active_storage_attachments"."record_id" = 9 AND "active_storage_attachments"."record_type" = 'AdvertisementPicture' AND "active_storage_attachments"."name" = 'image' LIMIT 1 /*action='index',application='BarahloNet',controller='advertisements'*/[0m
+  ↳ app/views/shared/advertisements/_advertisement_card.erb:5
+  [1m[36mActiveStorage::Blob Load (0.1ms)[0m  [1m[34mSELECT "active_storage_blobs".* FROM "active_storage_blobs" WHERE "active_storage_blobs"."id" = 7 LIMIT 1 /*action='index',application='BarahloNet',controller='advertisements'*/[0m
+  ↳ app/views/shared/advertisements/_advertisement_card.erb:10
+  Rendered shared/advertisements/_advertisement_card.erb (Duration: 12.3ms | GC: 0.0ms)
+  Rendered advertisements/_table.erb (Duration: 83.5ms | GC: 0.0ms)
+  Rendered advertisements/index.html.erb within layouts/application (Duration: 106.8ms | GC: 2.4ms)
+  Rendered layout layouts/application.html.erb (Duration: 108.5ms | GC: 2.4ms)
+Completed 200 OK in 133ms (Views: 107.6ms | ActiveRecord: 2.3ms (20 queries, 1 cached) | GC: 2.4ms)
+
+
+Started DELETE "/logout" for 127.0.0.1 at 2025-12-22 11:49:16 +0300
+Processing by SessionsController#destroy as TURBO_STREAM
+  Parameters: {"authenticity_token" => "[FILTERED]"}
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = 1 LIMIT 1 /*action='destroy',application='BarahloNet',controller='sessions'*/[0m
+  ↳ app/controllers/application_controller.rb:9:in 'ApplicationController#set_current_user'
+Redirected to http://127.0.0.1:37281/login
+Completed 302 Found in 14ms (ActiveRecord: 0.1ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/login" for 127.0.0.1 at 2025-12-22 11:49:16 +0300
+Processing by SessionsController#new as TURBO_STREAM
+  Rendering layout layouts/application.html.erb
+  Rendering sessions/new.html.erb within layouts/application
+  Rendered layouts/_navbar.erb (Duration: 1.3ms | GC: 0.0ms)
+  Rendered sessions/new.html.erb within layouts/application (Duration: 4.3ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 5.3ms | GC: 0.0ms)
+Completed 200 OK in 13ms (Views: 5.8ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/register" for 127.0.0.1 at 2025-12-22 11:49:16 +0300
+Processing by UsersController#new as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering users/new.html.erb within layouts/application
+  Rendered users/new.html.erb within layouts/application (Duration: 6.7ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 7.6ms | GC: 0.0ms)
+Completed 200 OK in 18ms (Views: 9.1ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/register" for 127.0.0.1 at 2025-12-22 11:49:18 +0300
+Processing by UsersController#new as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering users/new.html.erb within layouts/application
+  Rendered users/new.html.erb within layouts/application (Duration: 3.1ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 3.5ms | GC: 0.0ms)
+Completed 200 OK in 15ms (Views: 4.4ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started POST "/register" for 127.0.0.1 at 2025-12-22 11:49:33 +0300
+Processing by UsersController#create as TURBO_STREAM
+  Parameters: {"authenticity_token" => "[FILTERED]", "user" => {"username" => "123", "email" => "[FILTERED]", "password" => "[FILTERED]", "password_confirmation" => "[FILTERED]"}, "commit" => "Зарегистрироваться"}
+  [1m[36mCity Load (0.1ms)[0m  [1m[34mSELECT "cities".* FROM "cities" ORDER BY "cities"."city_id" ASC LIMIT 1 /*action='create',application='BarahloNet',controller='users'*/[0m
+  ↳ app/controllers/users_controller.rb:10:in 'UsersController#create'
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*action='create',application='BarahloNet',controller='users'*/[0m
+  ↳ app/controllers/users_controller.rb:11:in 'UsersController#create'
+  [1m[36mCity Load (3.6ms)[0m  [1m[34mSELECT "cities".* FROM "cities" WHERE "cities"."city_id" = 1 LIMIT 1 /*action='create',application='BarahloNet',controller='users'*/[0m
+  ↳ app/controllers/users_controller.rb:11:in 'UsersController#create'
+  [1m[36mUser Exists? (0.1ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."email" = '123@gmail.com' LIMIT 1 /*action='create',application='BarahloNet',controller='users'*/[0m
+  ↳ app/controllers/users_controller.rb:11:in 'UsersController#create'
+  [1m[36mUser Exists? (0.0ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."username" = '123' LIMIT 1 /*action='create',application='BarahloNet',controller='users'*/[0m
+  ↳ app/controllers/users_controller.rb:11:in 'UsersController#create'
+  [1m[36mUser Create (0.1ms)[0m  [1m[32mINSERT INTO "users" ("city_id", "email", "password_digest", "username", "phone", "rating", "created_at", "updated_at") VALUES (1, '123@gmail.com', '$2a$12$RSJUydn67rTJ7aKR/A/MSeBvwdX2rNn01ddzbfbvEU1XLyOIellxu', '123', NULL, NULL, '2025-12-22 08:49:33.592136', '2025-12-22 08:49:33.592136') RETURNING "id" /*action='create',application='BarahloNet',controller='users'*/[0m
+  ↳ app/controllers/users_controller.rb:11:in 'UsersController#create'
+  [1m[36mTRANSACTION (6.6ms)[0m  [1m[35mCOMMIT TRANSACTION /*action='create',application='BarahloNet',controller='users'*/[0m
+  ↳ app/controllers/users_controller.rb:11:in 'UsersController#create'
+Redirected to http://127.0.0.1:37281/
+Completed 302 Found in 240ms (ActiveRecord: 10.8ms (5 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/" for 127.0.0.1 at 2025-12-22 11:49:33 +0300
+Processing by AdvertisementsController#index as TURBO_STREAM
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = 5 LIMIT 1 /*action='index',application='BarahloNet',controller='advertisements'*/[0m
+  ↳ app/controllers/application_controller.rb:9:in 'ApplicationController#set_current_user'
+  Rendering layout layouts/application.html.erb
+  Rendering advertisements/index.html.erb within layouts/application
+  Rendered layouts/_navbar.erb (Duration: 0.9ms | GC: 0.0ms)
+  Rendered advertisements/_search_form.erb (Duration: 1.4ms | GC: 0.0ms)
+  [1m[36mCity Load (0.1ms)[0m  [1m[34mSELECT "cities".* FROM "cities" /*action='index',application='BarahloNet',controller='advertisements'*/[0m
+  ↳ app/views/advertisements/_filters.erb:26:in 'Enumerable#map'
+  Rendered filters/_transport_filters.erb (Duration: 0.9ms | GC: 0.0ms)
+  Rendered filters/_real_estate_filters.erb (Duration: 1.5ms | GC: 0.0ms)
+  Rendered filters/_service_filters.erb (Duration: 3.7ms | GC: 0.0ms)
+  Rendered filters/_thing_filters.erb (Duration: 0.6ms | GC: 0.0ms)
+  Rendered filters/_job_filters.erb (Duration: 0.6ms | GC: 0.0ms)
+  Rendered advertisements/_filters.erb (Duration: 12.6ms | GC: 0.0ms)
+  [1m[36mAdvertisement Exists? (0.1ms)[0m  [1m[34mSELECT 1 AS one FROM "advertisements" LIMIT 1 OFFSET 0 /*action='index',application='BarahloNet',controller='advertisements'*/[0m
+  ↳ app/views/advertisements/index.html.erb:71
+  [1m[36mCACHE Advertisement Exists? (0.0ms)[0m  [1m[34mSELECT 1 AS one FROM "advertisements" LIMIT 1 OFFSET 0[0m
+  ↳ app/views/advertisements/_table.erb:3
+  [1m[36mAdvertisement Load (0.1ms)[0m  [1m[34mSELECT "advertisements".* FROM "advertisements" ORDER BY "advertisements"."created_at" DESC LIMIT 15 OFFSET 0 /*action='index',application='BarahloNet',controller='advertisements'*/[0m
+  ↳ app/views/advertisements/_table.erb:9
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" IN (4, 3, 1, 2) /*action='index',application='BarahloNet',controller='advertisements'*/[0m
+  ↳ app/views/advertisements/_table.erb:9
+  [1m[36mCity Load (0.1ms)[0m  [1m[34mSELECT "cities".* FROM "cities" WHERE "cities"."city_id" IN (2, 1, 5, 4) /*action='index',application='BarahloNet',controller='advertisements'*/[0m
+  ↳ app/views/advertisements/_table.erb:9
+  [1m[36mAdvertisementPicture Load (0.1ms)[0m  [1m[34mSELECT "advertisement_pictures".* FROM "advertisement_pictures" WHERE "advertisement_pictures"."ad_id" = 12 /*action='index',application='BarahloNet',controller='advertisements'*/[0m
+  ↳ app/views/shared/advertisements/_advertisement_card.erb:5
+  Rendered shared/advertisements/_advertisement_card.erb (Duration: 2.1ms | GC: 0.0ms)
+  [1m[36mAdvertisementPicture Load (0.0ms)[0m  [1m[34mSELECT "advertisement_pictures".* FROM "advertisement_pictures" WHERE "advertisement_pictures"."ad_id" = 11 /*action='index',application='BarahloNet',controller='advertisements'*/[0m
+  ↳ app/views/shared/advertisements/_advertisement_card.erb:5
+  Rendered shared/advertisements/_advertisement_card.erb (Duration: 1.5ms | GC: 0.0ms)
+  [1m[36mAdvertisementPicture Load (0.0ms)[0m  [1m[34mSELECT "advertisement_pictures".* FROM "advertisement_pictures" WHERE "advertisement_pictures"."ad_id" = 7 /*action='index',application='BarahloNet',controller='advertisements'*/[0m
+  ↳ app/views/shared/advertisements/_advertisement_card.erb:5
+  [1m[36mActiveStorage::Attachment Load (0.1ms)[0m  [1m[34mSELECT "active_storage_attachments".* FROM "active_storage_attachments" WHERE "active_storage_attachments"."record_id" = 7 AND "active_storage_attachments"."record_type" = 'AdvertisementPicture' AND "active_storage_attachments"."name" = 'image' LIMIT 1 /*action='index',application='BarahloNet',controller='advertisements'*/[0m
+  ↳ app/views/shared/advertisements/_advertisement_card.erb:5
+  [1m[36mActiveStorage::Blob Load (0.1ms)[0m  [1m[34mSELECT "active_storage_blobs".* FROM "active_storage_blobs" WHERE "active_storage_blobs"."id" = 5 LIMIT 1 /*action='index',application='BarahloNet',controller='advertisements'*/[0m
+  ↳ app/views/shared/advertisements/_advertisement_card.erb:10
+  Rendered shared/advertisements/_advertisement_card.erb (Duration: 4.7ms | GC: 0.0ms)
+  [1m[36mAdvertisementPicture Load (0.1ms)[0m  [1m[34mSELECT "advertisement_pictures".* FROM "advertisement_pictures" WHERE "advertisement_pictures"."ad_id" = 5 /*action='index',application='BarahloNet',controller='advertisements'*/[0m
+  ↳ app/views/shared/advertisements/_advertisement_card.erb:5
+  Rendered shared/advertisements/_advertisement_card.erb (Duration: 1.0ms | GC: 0.0ms)
+  [1m[36mAdvertisementPicture Load (0.0ms)[0m  [1m[34mSELECT "advertisement_pictures".* FROM "advertisement_pictures" WHERE "advertisement_pictures"."ad_id" = 4 /*action='index',application='BarahloNet',controller='advertisements'*/[0m
+  ↳ app/views/shared/advertisements/_advertisement_card.erb:5
+  Rendered shared/advertisements/_advertisement_card.erb (Duration: 1.3ms | GC: 0.0ms)
+  [1m[36mAdvertisementPicture Load (0.0ms)[0m  [1m[34mSELECT "advertisement_pictures".* FROM "advertisement_pictures" WHERE "advertisement_pictures"."ad_id" = 2 /*action='index',application='BarahloNet',controller='advertisements'*/[0m
+  ↳ app/views/shared/advertisements/_advertisement_card.erb:5
+  [1m[36mActiveStorage::Attachment Load (0.1ms)[0m  [1m[34mSELECT "active_storage_attachments".* FROM "active_storage_attachments" WHERE "active_storage_attachments"."record_id" = 8 AND "active_storage_attachments"."record_type" = 'AdvertisementPicture' AND "active_storage_attachments"."name" = 'image' LIMIT 1 /*action='index',application='BarahloNet',controller='advertisements'*/[0m
+  ↳ app/views/shared/advertisements/_advertisement_card.erb:5
+  [1m[36mActiveStorage::Blob Load (0.1ms)[0m  [1m[34mSELECT "active_storage_blobs".* FROM "active_storage_blobs" WHERE "active_storage_blobs"."id" = 6 LIMIT 1 /*action='index',application='BarahloNet',controller='advertisements'*/[0m
+  ↳ app/views/shared/advertisements/_advertisement_card.erb:10
+  Rendered shared/advertisements/_advertisement_card.erb (Duration: 3.4ms | GC: 0.0ms)
+  [1m[36mAdvertisementPicture Load (0.1ms)[0m  [1m[34mSELECT "advertisement_pictures".* FROM "advertisement_pictures" WHERE "advertisement_pictures"."ad_id" = 1 /*action='index',application='BarahloNet',controller='advertisements'*/[0m
+  ↳ app/views/shared/advertisements/_advertisement_card.erb:5
+  [1m[36mActiveStorage::Attachment Load (0.1ms)[0m  [1m[34mSELECT "active_storage_attachments".* FROM "active_storage_attachments" WHERE "active_storage_attachments"."record_id" = 9 AND "active_storage_attachments"."record_type" = 'AdvertisementPicture' AND "active_storage_attachments"."name" = 'image' LIMIT 1 /*action='index',application='BarahloNet',controller='advertisements'*/[0m
+  ↳ app/views/shared/advertisements/_advertisement_card.erb:5
+  [1m[36mActiveStorage::Blob Load (0.1ms)[0m  [1m[34mSELECT "active_storage_blobs".* FROM "active_storage_blobs" WHERE "active_storage_blobs"."id" = 7 LIMIT 1 /*action='index',application='BarahloNet',controller='advertisements'*/[0m
+  ↳ app/views/shared/advertisements/_advertisement_card.erb:10
+  Rendered shared/advertisements/_advertisement_card.erb (Duration: 3.8ms | GC: 0.0ms)
+  Rendered advertisements/_table.erb (Duration: 27.7ms | GC: 0.0ms)
+  Rendered advertisements/index.html.erb within layouts/application (Duration: 45.1ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 45.7ms | GC: 0.0ms)
+Completed 200 OK in 57ms (Views: 44.9ms | ActiveRecord: 1.2ms (20 queries, 1 cached) | GC: 0.0ms)
+
+
