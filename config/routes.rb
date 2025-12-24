@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get "reviews/create"
   post 'create_review', to: 'pages#create_review', as: :create_review
   get "pages/dashboard"
   get "users/new"
@@ -32,7 +33,7 @@ Rails.application.routes.draw do
   # Профиль (только для авторизованных)
   get 'profile', to: 'pages#profile'
   get 'seller/:id', to: 'pages#seller_profile', as: 'seller_profile'
-  post 'seller/:id/review', to: 'pages#create_review', as: 'seller_review'
+  # post 'seller/:id/review', to: 'pages#create_review', as: 'seller_review'
 
   get '/advertisements/category_filters'
   # Работа с объявлениями
@@ -47,5 +48,8 @@ Rails.application.routes.draw do
     resources :messages, only: [:create]
   end
 
-  resources :reviews, only: [:create]
+  # Отзывы
+  post 'seller/:seller_id/review', to: 'reviews#create', as: 'seller_review'
+  resources :reviews, only: [:destroy]
+
 end

@@ -15,10 +15,10 @@
           <h2 class="text-xl font-semibold text-gray-800 mb-4">Контактная информация</h2>
           <div class="space-y-2">
             <p class="text-gray-700">
-              <span class="font-medium">Email:</span> <%= @user.username %>
+              <span class="font-medium">Email:</span> <%= @user.email %>
             </p>
             <p class="text-gray-700">
-              <span class="font-medium">Город:</span> <%= @user.city.name || 'Не указан' %>
+              <span class="font-medium">Город:</span> <%= @user.city&.name || 'Не указан' %>
             </p>
           </div>
         </div>
@@ -27,20 +27,33 @@
           <h2 class="text-xl font-semibold text-gray-800 mb-4">Отзывы</h2>
           <% if @user.received_reviews.any? %>
             <div class="space-y-4">
-              <% @user.received_reviews.each do |review| %>
+              <% @user.received_reviews.includes(:author).each do |review| %>
                 <div class="border rounded-lg p-4">
-                  <div class="flex items-center mb-2">
-                    <% (1..5).each do |i| %>
-                      <% if i <= review.rating %>
-                        <span class="text-yellow-400 text-xl">★</span>
-                      <% else %>
-                        <span class="text-gray-300 text-xl">★</span>
+                  <div class="flex items-center justify-between mb-2">
+                    <!-- Звёзды -->
+                    <div class="flex space-x-1">
+                      <% (1..5).each do |i| %>
+                        <span class="<%= i <= review.rating ? 'text-yellow-400' : 'text-gray-300' %> text-xl">★</span>
+                      <% end %>
+                    </div>
+
+                    <!-- Кнопка удаления -->
+                    <% if logged_in? && current_user.id == review.user_id %>
+                      <%= button_to review_path(review),
+                                    method: :delete,
+                                    form: { data: { turbo_confirm: "Удалить отзыв?" } },
+                                    class: "ml-2 p-1 text-red-500 hover:text-red-700 rounded-full transition-colors" do %>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                          <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zm1 8a1 1 0 100 2 1 1 0 000-2zm-2 1a1 1 0 112 0 1 1 0 01-2 0z" clip-rule="evenodd" />
+                        </svg>
                       <% end %>
                     <% end %>
-                    <p class="text-sm text-gray-500 mt-2">
-                      <%= review.created_at.strftime("%d.%m.%Y") %>
-                    </p>
                   </div>
+
+                  <p class="text-gray-500 text-sm mb-1">
+                    От: <%= review.author&.username || 'Аноним' %> •
+                    <%= review.created_at.strftime("%d.%m.%Y") %>
+                  </p>
                   <p class="text-gray-700"><%= review.text %></p>
                 </div>
               <% end %>
@@ -50,13 +63,15 @@
           <% end %>
         </div>
 
-        <div class="mb-6">
-          <button onclick="document.getElementById('review-modal').classList.remove('hidden')"
-                  class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 transition-colors">
-            Оставить отзыв
-          </button>
-        </div>
-        <%= render "pages/review_form" %>
+        <% if logged_in? && current_user != @user %>
+          <div class="mb-6">
+            <button onclick="document.getElementById('review-modal').classList.remove('hidden')"
+                    class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 transition-colors">
+              Оставить отзыв
+            </button>
+          </div>
+          <%= render "pages/review_form" %>
+        <% end %>
 
         <div class="border-t pt-6">
           <h2 class="text-xl font-semibold text-gray-800 mb-4">Другие объявления продавца</h2>
