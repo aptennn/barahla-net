@@ -6,20 +6,16 @@ services:
     buildCommand: "./bin/render-build.sh"
     startCommand: "bundle exec puma -C config/puma.rb"
     envVars:
-      - key: DATABASE_URL
-        value: "sqlite3:/opt/render/project/src/db/production.sqlite3"
-      - key: DATABASE_PATH
-        value: "/opt/render/project/src/db/production.sqlite3"
-      - key: RAILS_MASTER_KEY
-        sync: false
       - key: RAILS_ENV
         value: production
+      - key: RAILS_MASTER_KEY
+        sync: false
       - key: RAILS_LOG_TO_STDOUT
         value: true
       - key: RAILS_SERVE_STATIC_FILES
         value: true
-      - key: DISABLE_ACTION_CABLE
-        value: "true"
+      - key: DATABASE_PATH
+        value: "/opt/render/project/src/db/production.sqlite3"
     disk:
       name: sqlite-data
       mountPath: /opt/render/project/src/db
