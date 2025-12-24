@@ -1,24 +1,38 @@
-# README
+# Barahla.Net
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+[![Ruby on Rails](https://img.shields.io/badge/Ruby%20on%20Rails-CC0000?style=flat&logo=rubyonrails&logoColor=white)](https://rubyonrails.org)
+[![SQLite](https://img.shields.io/badge/SQLite-07405E?style=flat&logo=sqlite&logoColor=white)](https://sqlite.org)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=flat&logo=tailwind-css&logoColor=white)](https://tailwindcss.com)
 
-Things you may want to cover:
+**Barahla.Net** — площадка для размещения объявлений о продаже товаров и услуг. Полнофункциональный аналог Avito на Ruby on Rails.
 
-* Ruby version
+## 🔥 Что умеет
 
-* System dependencies
+### Для пользователей
+- 📝 Создавать объявления с фото, описанием и ценой
+- 🔍 Искать товары по названию, категориям, цене
+- 👤 Вести личный кабинет со своими объявлениями
+- 💬 Связываться с продавцами напрямую
+- ❤️ Добавлять товары в избранное
+- 
 
-* Configuration
+## 🛠 Технический стек
 
-* Database creation
+**Backend:**
+- Ruby on Rails 7+
+- SQLite (разработка)
+- Devise для аутентификации
+- Active Storage для загрузки файлов
 
-* Database initialization
+**Frontend:**
+- Tailwind CSS для стилей
+- Hotwire (Turbo/Stimulus) для динамики
+- Адаптивная верстка
 
-* How to run the test suite
+## 🚀 Использование
 
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+После запуска проекта доступны:
+- Главная страница с лентой объявлений
+- Поиск и фильтры
+- Личный кабинет пользователя
+- Конструкторы для создания объявлений
