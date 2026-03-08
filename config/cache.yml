@@ -1,16 +1,15 @@
-default: &default
-  store_options:
-    # Cap age of oldest cache entry to fulfill retention policies
-    # max_age: <%= 60.days.to_i %>
-    max_size: <%= 256.megabytes %>
-    namespace: <%= Rails.env %>
-
+# config/cache.yml
 development:
-  <<: *default
+  store: :solid_cache
+  url: <%= ENV.fetch("CACHE_URL", "redis://localhost:6379/0") %>
+  expires_in: <%= ENV.fetch("CACHE_EXPIRES_IN", 1.week) %>
 
 test:
-  <<: *default
+  store: :solid_cache
+  url: <%= ENV.fetch("CACHE_URL", "redis://localhost:6379/0") %>
+  expires_in: <%= ENV.fetch("CACHE_EXPIRES_IN", 1.week) %>
 
 production:
-  database: cache
-  <<: *default
+  store: :solid_cache
+  url: <%= ENV.fetch("CACHE_URL", "redis://localhost:6379/0") %>
+  expires_in: <%= ENV.fetch("CACHE_EXPIRES_IN", 1.week) %>

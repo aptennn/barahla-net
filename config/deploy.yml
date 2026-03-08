@@ -1,6 +1,5 @@
 service: barahla-net
 image: ghcr.io/aptennn/barahla-net
-
 servers:
   web:
     - "<%= ENV['SERVER_IP'] %>"

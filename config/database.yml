@@ -1,10 +1,30 @@
-production:
-  <<: *default
+# config/database.yml
+development:
   adapter: postgresql
   encoding: unicode
+  database: barahla_development
+  username: barahla_user
+  password: <%= ENV["DATABASE_PASSWORD"] %>
+  host: localhost
+  port: 5432
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+
+test:
+  adapter: postgresql
+  encoding: unicode
+  database: barahla_test
+  username: barahla_user
+  password: <%= ENV["DATABASE_PASSWORD"] %>
+  host: localhost
+  port: 5432
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+
+production:
+  adapter: postgresql
+  encoding: unicode
   database: barahla_prod
   username: barahla_user
   password: <%= ENV["DATABASE_PASSWORD"] %>
   host: localhost
   port: 5432
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
