@@ -12,6 +12,7 @@ env:
     - RAILS_MASTER_KEY
     - DATABASE_PASSWORD
     - KAMAL_REGISTRY_PASSWORD
+    - DATABASE_HOST
 
 registry:
   server: ghcr.io
