@@ -28,3 +28,13 @@ production:
   host: <%= ENV["DATABASE_HOST"] || "localhost" %>
   port: 5432
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+
+cable:
+  adapter: postgresql
+  encoding: unicode
+  database: barahla_prod
+  username: barahla_user
+  password: <%= ENV["DATABASE_PASSWORD"] %>
+  host: <%= ENV["DATABASE_HOST"] || "localhost" %>
+  port: 5432
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
