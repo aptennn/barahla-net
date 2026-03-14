@@ -30,8 +30,9 @@ gem 'solid_cache', '~> 0.6'
 gem 'solid_queue', '~> 0.6'
 gem "solid_cable"
 
-gem 'pg'
-
+group :production do
+    gem 'pg'
+end
 # Reduces boot times through caching; required in config/boot.rb
 gem "bootsnap", require: false
 
